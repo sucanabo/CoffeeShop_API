@@ -14,7 +14,10 @@ class CreateOptionsTable extends Migration
     public function up()
     {
         Schema::create('options', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->string('title',500);
+            $table->decimal('price');
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }

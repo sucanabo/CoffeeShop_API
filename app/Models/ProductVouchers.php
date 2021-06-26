@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Option extends Model
+class ProductVouchers extends Model
 {
     use HasFactory;
 
-    protected $table = 'options';
+    protected $table = 'product_vouchers';
 
     protected $primaryKey = 'id';
     
-    protected $fillable = ['title','price','status'];
+    protected $fillable = ['product_id','voucher_id','status',];
     
     public $timestamps = true;
 }
