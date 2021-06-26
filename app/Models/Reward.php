@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Reward extends Model
 {
     use HasFactory;
+
+    protected $table = 'rewards';
+
+    protected $primaryKey = 'id';
+
     protected $fillable = [
         'title',
         'content',
@@ -18,4 +23,10 @@ class Reward extends Model
         'content',
         'status',
     ];
+
+    public $timestamps = true;
+
+    public function UserRewards(){
+        return $this->hasMany('App\Models\UserRewards','reward_id','id');
+    }
 }

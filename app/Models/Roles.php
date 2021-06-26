@@ -16,4 +16,9 @@ class Roles extends Model
     protected $fillable = ['title','status'];
     
     public $timestamps = true;
+
+    public function Staff(){
+        return $this->hasMany('App\Models\Staff','role_id','id');
+    }
+
 }

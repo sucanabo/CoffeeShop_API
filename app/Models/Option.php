@@ -16,4 +16,8 @@ class Option extends Model
     protected $fillable = ['title','price','status'];
     
     public $timestamps = true;
+
+    public function ProductOptions(){
+        return $this->hasMany('App\Models\ProductOptions','option_id','id');
+    }
 }

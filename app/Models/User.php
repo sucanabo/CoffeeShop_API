@@ -52,4 +52,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function Order(){
+        return $this->hasMany('App\Models\Order','user_id','id');
+    }
+
+    public function UserRewards(){
+        return $this->hasMany('App\Models\UserRewards','user_id','id');
+    }
+
+    public function Transaction(){
+        return $this->hasMany('App\Models\Transaction','user_id','id');
+    }
+
+    public function cart(){
+        return $this->hasMany('App\Models\Cart','user_id','id');
+    }
 }

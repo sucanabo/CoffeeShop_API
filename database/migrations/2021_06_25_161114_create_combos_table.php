@@ -14,7 +14,15 @@ class CreateCombosTable extends Migration
     public function up()
     {
         Schema::create('combos', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->string('name',255);
+            $table->text('content');
+            $table->text('image')->default('default_reward')->nullable();
+            $table->decimal('acture_price');
+            $table->decimal('discount_price');
+            $table->date('start_date');
+            $table->date('expiry_date');
+            $table->tinyInteger('status')->default(1);  
             $table->timestamps();
         });
     }

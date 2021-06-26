@@ -21,7 +21,7 @@ class CreateStaffTable extends Migration
             $table->string('first_name',255);
             $table->enum('gender', ['male', 'female']);
             $table->date('birthday');
-            $table->text('image');
+            $table->text('image')->default('default_reward')->nullable();
             $table->string('phone',11);
             $table->string('email',500);
             $table->integer('role_id')->unsigned();

@@ -28,4 +28,11 @@ class Staff extends Model
     
     public $timestamps = true;
 
+    public function Roles(){
+        return $this->belongsTo('App\Models\Roles','role_id','id');
+    }
+
+    public function Transaction(){
+        return $this->hasMany('App\Models\Transaction','staff_id','id');
+    }
 }

@@ -30,4 +30,12 @@ class Vouchers extends Model
     ];
     
     public $timestamps = true;
+
+    public function ProductVouchers(){
+        return $this->hasMany('App\Models\ProductVouchers','voucher_id','id');
+    }
+
+    public function CategoryVouchers(){
+        return $this->hasMany('App\Models\CategoryVouchers','category_id','id');
+    }
 }

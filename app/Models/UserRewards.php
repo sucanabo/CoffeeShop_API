@@ -5,32 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class UserRewards extends Model
 {
     use HasFactory;
 
-    protected $table = 'orders';
+    protected $table = 'user_rewards';
 
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'customer_id',
-        'subtotal',
-        'discount',
-        'item_discount',
-        'shipping',
-        'promo',
-        'grandtotal',
-        'content',
+        'reward_id',
+        'user_id',
+        'quantity',
         'status',
-        'address',
-        'phone',
     ];
-
+    
     public $timestamps = true;
 
-    public function OrderItem(){
-        return $this->hasMany('App\Models\OrderItem','order_id','id');
+
+    public function Rewards(){
+        return $this->belongsTo('App\Models\Rewards','reward_id','id');
     }
 
     public function User(){
