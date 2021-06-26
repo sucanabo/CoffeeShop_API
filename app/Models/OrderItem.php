@@ -5,17 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Reward extends Model
+class OrderItem extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'title',
+        'product_id',
+        'order_id',
+        'quantity',
         'content',
-        'image',
-        'start_date',
-        'expiry_date',
-        'point',
-        'content',
-        'status',
     ];
 }

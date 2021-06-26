@@ -19,8 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('last_name');
             $table->enum('gender', ['male', 'female']);
             $table->date('birthday')->nullable();
-            $table->string('avatar')->default('default_avatar.png');
-            $table->string('address')->nullable();
+            $table->text('image')->default('default_user.png');
             $table->integer('level')->default(0);
             $table->integer('point')->default(0);
             $table->string('qr_code')->nullable();

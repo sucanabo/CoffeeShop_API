@@ -5,17 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Reward extends Model
+class Order extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'title',
-        'content',
-        'image',
-        'start_date',
-        'expiry_date',
-        'point',
+        'customer_id',
+        'subtotal',
+        'discount',
+        'item_discount',
+        'shipping',
+        'promo',
+        'grandtotal',
         'content',
         'status',
+        'address',
+        'phone',
     ];
 }
