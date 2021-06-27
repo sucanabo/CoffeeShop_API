@@ -16,4 +16,12 @@ class Categories extends Model
     protected $fillable = ['title','status'];
     
     public $timestamps = true;
+
+    public function product(){
+        return $this->hasMany('App\Models\product','category_id','id');
+    }
+
+    public function CategoryVouchers(){
+        return $this->hasMany('App\Models\CategoryVoucher','category_id','id');
+    }
 }

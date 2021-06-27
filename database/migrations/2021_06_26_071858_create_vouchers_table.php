@@ -18,7 +18,7 @@ class CreateVouchersTable extends Migration
             $table->text('title');
             $table->text('content');
             $table->string('coupen_code',255);
-            $table->text('image');
+            $table->text('image')->default('default_reward')->nullable();
             $table->string('qr_code',255);
             $table->date('start_date');
             $table->date('expiry_date');

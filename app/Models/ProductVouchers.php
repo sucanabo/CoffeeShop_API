@@ -16,4 +16,12 @@ class ProductVouchers extends Model
     protected $fillable = ['product_id','voucher_id','status',];
     
     public $timestamps = true;
+
+    public function Product(){
+        return $this->belongsTo('App\Models\Product','product_id','id');
+    }
+
+    public function Vouchers(){
+        return $this->belongsTo('App\Models\Vouchers','voucher_id','id');
+    }
 }

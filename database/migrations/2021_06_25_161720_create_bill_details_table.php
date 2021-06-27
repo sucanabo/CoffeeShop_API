@@ -14,7 +14,7 @@ class CreateBillDetailsTable extends Migration
     public function up()
     {
         Schema::create('bill_details', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->timestamps();
         });
     }

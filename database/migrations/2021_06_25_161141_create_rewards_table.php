@@ -14,14 +14,13 @@ class CreateRewardsTable extends Migration
     public function up()
     {
         Schema::create('rewards', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->string('title');
             $table->string('content')->nullable();
             $table->text('image')->default('default_reward')->nullable();
             $table->date('start_date')->nullable();
             $table->date('expiry_date');
-            $table->int('point')->default(0);
-            $table->text('content')->nullable();
+            $table->integer('point')->default(0);
             $table->tinyInteger('status');
             $table->timestamps();
         });
