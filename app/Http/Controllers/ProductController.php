@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function index()
     {
         return response([
-            'products' => Product::orderby('created_at','desc')->with('avgRating')->get(),
+            'products' => Product::orderby('created_at','desc')->get(),
             'message' => 'success'
         ],200);
     }

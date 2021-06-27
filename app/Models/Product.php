@@ -5,6 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Models\ProductOption;
+use App\Models\ProductVoucher;
+use App\Models\OrderItem;
+use App\Models\Category;
+use App\Models\Rating;
 
 class Product extends Model
 {
@@ -23,30 +28,33 @@ class Product extends Model
     'content',
     'status'
     ];
-    
+    protected $appends = [
+        'average-rating'
+    ];
+
     public $timestamps = true;
 
 
     public function productOptions(){
-        return $this->hasMany('App\Models\ProductOption','product_id','id');
+        return $this->hasMany(ProductOption::class,'product_id','id');
     }
 
     public function productVouchers(){
-        return $this->hasMany('App\Models\ProductVoucher','product_id','id');
+        return $this->hasMany(ProductVoucher::class,'product_id','id');
     }
 
     public function orderitems(){
-        return $this->hasMany('App\Models\OrderItem','product_id','id');
+        return $this->hasMany(OrderItem::class,'product_id','id');
     }
 
     public function category(){
-        return $this->belongsTo('App\Models\Category','category_id','id');
+        return $this->belongsTo(Category::class,'category_id','id');
     }
 
     public function ratings(){
-        return $this->hasMany('App\Models\Rating','product_id','id');
+        return $this->hasMany(Rating::class,'product_id','id');
     }
     public function avgRating(){
-        return $this->ratings->select('*', DB::raw('AVG(star) as avg_rating'));
+        return round($this->ratings()->avg('star'),1);
     }
 }
