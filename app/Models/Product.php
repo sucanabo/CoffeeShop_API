@@ -18,7 +18,6 @@ class Product extends Model
     'title','type',
     'price',
     'image',
-    'star',
     'content',
     'status'
     ];
@@ -26,22 +25,23 @@ class Product extends Model
     public $timestamps = true;
 
 
-    public function ProductOptions(){
-        return $this->hasMany('App\Models\ProductOptions','product_id','id');
+    public function ProductOption(){
+        return $this->hasMany('App\Models\ProductOption','product_id','id');
     }
 
-    public function ProductVouchers(){
-        return $this->hasMany('App\Models\ProductVouchers','product_id','id');
+    public function ProductVoucher(){
+        return $this->hasMany('App\Models\ProductVoucher','product_id','id');
     }
 
     public function OrderItem(){
         return $this->hasMany('App\Models\OrderItem','product_id','id');
     }
 
-    public function Categories(){
-        return $this->belongsTo('App\Models\Categories','category_id','id');
+    public function Category(){
+        return $this->belongsTo('App\Models\Category','category_id','id');
     }
 
-
-   
+    public function Rating(){
+        return $this->hasMany('App\Models\Rating','product','id');
+    }
 }

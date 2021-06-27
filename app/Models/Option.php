@@ -17,7 +17,7 @@ class Option extends Model
     
     public $timestamps = true;
 
-    public function ProductOptions(){
-        return $this->hasMany('App\Models\ProductOptions','option_id','id');
+    public function ProductOption(){
+        return $this->hasMany('App\Models\ProductOption','option_id','id');
     }
 }

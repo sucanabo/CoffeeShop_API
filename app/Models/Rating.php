@@ -5,29 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserRewards extends Model
+class Rating extends Model
 {
     use HasFactory;
-
-    protected $table = 'user_rewards';
+    protected $table = 'rewards';
 
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'reward_id',
+        'product_id',
         'user_id',
-        'quantity',
-        'status',
+        'star',
     ];
-    
+
     public $timestamps = true;
-
-
-    public function Rewards(){
-        return $this->belongsTo('App\Models\Rewards','reward_id','id');
-    }
 
     public function User(){
         return $this->belongsTo('App\Models\User','user_id','id');
+    }
+    public function Product(){
+        return $this->belongsTo('App\Models\Product','product_id','id');
     }
 }

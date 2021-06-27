@@ -21,7 +21,6 @@ class CreateProductTable extends Migration
             $table->enum('type', ['drink', 'food']);
             $table->decimal('price');
             $table->text('image');
-            $table->tinyInteger('star');
             $table->text('content');
             $table->tinyInteger('status')->default(1);
             $table->timestamps();

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CategoryVouchers extends Model
+class CategoryVoucher extends Model
 {
     use HasFactory;
 
@@ -32,11 +32,11 @@ class CategoryVouchers extends Model
 
     public $timestamps = true;
 
-    public function Categories(){
-        return $this->belongsTo('App\Models\Categories','category_id','id');
+    public function Categorie(){
+        return $this->belongsTo('App\Models\Category','category_id','id');
     }
 
-    public function Vouchers(){
-        return $this->belongsTo('App\Models\Vouchers','voucher_id','id');
+    public function Voucher(){
+        return $this->belongsTo('App\Models\Voucher','voucher_id','id');
     }
 }

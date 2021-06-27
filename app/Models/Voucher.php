@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Vouchers extends Model
+class Voucher extends Model
 {
     use HasFactory;
 
@@ -31,11 +31,11 @@ class Vouchers extends Model
     
     public $timestamps = true;
 
-    public function ProductVouchers(){
-        return $this->hasMany('App\Models\ProductVouchers','voucher_id','id');
+    public function ProductVoucher(){
+        return $this->hasMany('App\Models\ProductVoucher','voucher_id','id');
     }
 
-    public function CategoryVouchers(){
-        return $this->hasMany('App\Models\CategoryVouchers','category_id','id');
+    public function CategoryVoucher(){
+        return $this->hasMany('App\Models\CategoryVoucher','category_id','id');
     }
 }

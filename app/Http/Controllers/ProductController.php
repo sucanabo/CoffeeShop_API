@@ -13,7 +13,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        return response([
+            'posts' => Post::OrderBy('created_at','desc')->withCount('')->get()
+        ],200);
     }
 
     /**
@@ -45,7 +47,9 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        return response([
+            'post' => Product::where('id',$id)->get()
+        ]);
     }
 
     /**

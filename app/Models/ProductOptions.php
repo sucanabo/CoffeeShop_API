@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductOptions extends Model
+class ProductOption extends Model
 {
     use HasFactory;
 
@@ -17,8 +17,8 @@ class ProductOptions extends Model
     
     public $timestamps = true;
 
-    public function Options(){
-        return $this->belongsTo('App\Models\Options','option_id','id');
+    public function Option(){
+        return $this->belongsTo('App\Models\Option','option_id','id');
     }
 
     public function Product(){

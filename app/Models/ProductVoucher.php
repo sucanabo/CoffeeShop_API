@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductVouchers extends Model
+class ProductVoucher extends Model
 {
     use HasFactory;
 
@@ -21,7 +21,7 @@ class ProductVouchers extends Model
         return $this->belongsTo('App\Models\Product','product_id','id');
     }
 
-    public function Vouchers(){
-        return $this->belongsTo('App\Models\Vouchers','voucher_id','id');
+    public function Voucher(){
+        return $this->belongsTo('App\Models\Voucher','voucher_id','id');
     }
 }

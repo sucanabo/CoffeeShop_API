@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Categories extends Model
+class Category extends Model
 {
     use HasFactory;
 
@@ -18,10 +18,10 @@ class Categories extends Model
     public $timestamps = true;
 
     public function product(){
-        return $this->hasMany('App\Models\product','category_id','id');
+        return $this->hasMany('App\Models\Product','category_id','id');
     }
 
-    public function CategoryVouchers(){
+    public function CategoryVoucher(){
         return $this->hasMany('App\Models\CategoryVoucher','category_id','id');
     }
 }

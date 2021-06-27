@@ -57,15 +57,18 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Order','user_id','id');
     }
 
-    public function UserRewards(){
-        return $this->hasMany('App\Models\UserRewards','user_id','id');
+    public function UserReward(){
+        return $this->hasMany('App\Models\UserReward','user_id','id');
     }
 
     public function Transaction(){
         return $this->hasMany('App\Models\Transaction','user_id','id');
     }
 
-    public function cart(){
+    public function Cart(){
         return $this->hasMany('App\Models\Cart','user_id','id');
+    }
+    public function Rating(){
+        return $this->belongsTo('App\Models\Rating','user_id','id');
     }
 }
