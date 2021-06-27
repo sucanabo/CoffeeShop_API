@@ -26,7 +26,7 @@ class Reward extends Model
 
     public $timestamps = true;
 
-    public function UserReward(){
-        return $this->hasMany('App\Models\UserReward','reward_id','id');
+    public function UserRewards(){
+        return $this->hasManys('App\Models\UserReward','reward_id','id');
     }
 }

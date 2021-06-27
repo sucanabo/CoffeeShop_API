@@ -32,11 +32,11 @@ class CategoryVoucher extends Model
 
     public $timestamps = true;
 
-    public function Categorie(){
+    public function Category(){
         return $this->belongsTo('App\Models\Category','category_id','id');
     }
 
-    public function Voucher(){
+    public function Vouchers(){
         return $this->belongsTo('App\Models\Voucher','voucher_id','id');
     }
 }

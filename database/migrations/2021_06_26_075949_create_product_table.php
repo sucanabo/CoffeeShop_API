@@ -20,7 +20,7 @@ class CreateProductTable extends Migration
             $table->text('title');
             $table->enum('type', ['drink', 'food']);
             $table->decimal('price');
-            $table->text('image');
+            $table->text('image')->default('default_product.png');
             $table->text('content');
             $table->tinyInteger('status')->default(1);
             $table->timestamps();

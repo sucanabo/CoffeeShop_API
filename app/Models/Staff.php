@@ -32,7 +32,7 @@ class Staff extends Model
         return $this->belongsTo('App\Models\Role','role_id','id');
     }
 
-    public function Transaction(){
+    public function Transactions(){
         return $this->hasMany('App\Models\Transaction','staff_id','id');
     }
 }

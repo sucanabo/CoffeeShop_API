@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Category;
 
 class CategoryController extends Controller
 {
@@ -13,7 +14,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        return response([
+            'categories' => Category::orderby('created_at','desc')->get()
+        ],200);
     }
 
     /**
@@ -21,9 +24,15 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $category = Category::create([
+            'title' => $request['title'],
+        ]);
+        return response([
+            'message' => 'Category created.',
+            'category' => $category
+        ],200);
     }
 
     /**
@@ -45,7 +54,9 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        return response([
+            'category' => Category::where('id',$id)->get()
+        ]);
     }
 
     /**

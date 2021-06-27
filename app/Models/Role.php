@@ -17,7 +17,7 @@ class Role extends Model
     
     public $timestamps = true;
 
-    public function Staff(){
+    public function Staffs(){
         return $this->hasMany('App\Models\Staff','role_id','id');
     }
 

@@ -17,11 +17,11 @@ class Category extends Model
     
     public $timestamps = true;
 
-    public function product(){
+    public function Products(){
         return $this->hasMany('App\Models\Product','category_id','id');
     }
 
-    public function CategoryVoucher(){
+    public function CategoryVouchers(){
         return $this->hasMany('App\Models\CategoryVoucher','category_id','id');
     }
 }

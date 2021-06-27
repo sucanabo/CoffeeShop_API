@@ -53,20 +53,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function Order(){
+    public function Orders(){
         return $this->hasMany('App\Models\Order','user_id','id');
     }
 
-    public function UserReward(){
+    public function UserRewards(){
         return $this->hasMany('App\Models\UserReward','user_id','id');
     }
 
-    public function Transaction(){
-        return $this->hasMany('App\Models\Transaction','user_id','id');
+    public function Transactions(){
+        return $this->hasManys('App\Models\Transaction','user_id','id');
     }
 
     public function Cart(){
-        return $this->hasMany('App\Models\Cart','user_id','id');
+        return $this->hasManys('App\Models\Cart','user_id','id');
     }
     public function Rating(){
         return $this->belongsTo('App\Models\Rating','user_id','id');

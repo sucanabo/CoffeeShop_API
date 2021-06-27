@@ -29,7 +29,7 @@ class Order extends Model
 
     public $timestamps = true;
 
-    public function OrderItem(){
+    public function OrderItems(){
         return $this->hasMany('App\Models\OrderItem','order_id','id');
     }
 

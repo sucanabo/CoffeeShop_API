@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Product;
 use App\Models\Rating;
 
-class ProductController extends Controller
+class RatingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +15,7 @@ class ProductController extends Controller
     public function index()
     {
         return response([
-            'products' => Product::orderby('created_at','desc')->with('avgRating')->get(),
-            'message' => 'success'
+            'ratings' => Rating::orderby('product_id')->get()
         ],200);
     }
 
@@ -29,24 +27,20 @@ class ProductController extends Controller
     public function create(Request $request)
     {
         $attrs = $request->validate([
-            'title' => 'required|string',
-            'content' => 'required|string',
+            'product_id' => 'required',
+            'star' => 'required',
         ]);
 
-        $product = Product::create([
-        'category_id' => $request['category_id'],
-        'title'=> $request['title'],
-        'type'=> $request['type'],
-        'price'=> $request['price'],
-        'image'=> $request['image'],
-        'content'=> $request['content'],
+        $rating = Rating::create([
+            'user_id' => auth()->user()->id,
+            'product_id' => $attrs['product_id'],
+            'star' => $attrs['star'],
         ]);
 
         return response([
-            'message' => 'Product created.',
-            'product' => $product,
-            
-        ]);
+            'message' => 'Rating created.',
+            'rating' => $rating
+        ],200);
     }
 
     /**
@@ -68,9 +62,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        return response([
-            'product' => Product::where('id',$id)->get()
-        ]);
+        //
     }
 
     /**
@@ -79,35 +71,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
+    public function edit($id)
     {
-        $product = Product::find($id);
-
-        if(!$product){
-            return response([
-                'message' => 'Product not found.'
-            ],403);
-        }
-        
-        //Only admin can edit
-        // if(auth()->user()->role_id != 1){
-        //     return response([
-        //         'message' => 'Permission denied.'
-        //     ]);
-        // }
-
-        $attrs = $request->validate([
-            'title' => 'string',
-            'content' => 'string',
-        ]);
-        $product->update($request->all());
-
-        return response([
-            'message' => 'Product edited.',
-            'product' => $product
-        ],200);
-
-
+        //
     }
 
     /**
