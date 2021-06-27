@@ -14,10 +14,10 @@ class CreateCategoryVouchersTable extends Migration
     public function up()
     {
         Schema::create('category_vouchers', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('category_id')->unsigned();
+            $table->id();
+            $table->bigInteger('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories');
-            $table->integer('voucher_id')->unsigned();
+            $table->bigInteger('voucher_id')->unsigned();
             $table->foreign('voucher_id')->references('id')->on('vouchers');
             $table->tinyInteger('status')->default(1);
             $table->timestamps();

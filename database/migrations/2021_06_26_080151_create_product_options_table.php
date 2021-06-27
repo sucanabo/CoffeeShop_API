@@ -14,10 +14,10 @@ class CreateProductOptionsTable extends Migration
     public function up()
     {
         Schema::create('product_options', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('product_id')->unsigned();
+            $table->id();
+            $table->bigInteger('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products');
-            $table->integer('option_id')->unsigned();
+            $table->bigInteger('option_id')->unsigned();
             $table->foreign('option_id')->references('id')->on('options');
             $table->tinyInteger('value');
             $table->timestamps();

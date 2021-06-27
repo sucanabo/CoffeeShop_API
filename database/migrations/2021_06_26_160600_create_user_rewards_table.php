@@ -14,10 +14,10 @@ class CreateUserRewardsTable extends Migration
     public function up()
     {
         Schema::create('user_rewards', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('reward_id')->unsigned();
+            $table->id();
+            $table->bigInteger('reward_id')->unsigned();
             $table->foreign('reward_id')->references('id')->on('rewards');
-            $table->integer('user_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->integer('quantity');
             $table->tinyInteger('status')->default(0);

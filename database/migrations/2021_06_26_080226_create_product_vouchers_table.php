@@ -14,10 +14,10 @@ class CreateProductVouchersTable extends Migration
     public function up()
     {
         Schema::create('product_vouchers', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('product_id')->unsigned();
+            $table->id();
+            $table->bigInteger('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products');
-            $table->integer('voucher_id')->unsigned();
+            $table->bigInteger('voucher_id')->unsigned();
             $table->foreign('voucher_id')->references('id')->on('vouchers');
             $table->tinyInteger('status')->default(1);
             $table->timestamps();

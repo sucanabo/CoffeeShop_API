@@ -14,7 +14,7 @@ class CreateRewardsTable extends Migration
     public function up()
     {
         Schema::create('rewards', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('title');
             $table->string('content')->nullable();
             $table->text('image')->default('default_reward')->nullable();

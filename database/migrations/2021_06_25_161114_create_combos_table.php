@@ -14,7 +14,7 @@ class CreateCombosTable extends Migration
     public function up()
     {
         Schema::create('combos', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('name',255);
             $table->text('content');
             $table->text('image')->default('default_reward')->nullable();

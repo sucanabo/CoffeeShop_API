@@ -14,7 +14,7 @@ class Order extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'customer_id',
+        'user_id',
         'subtotal',
         'discount',
         'item_discount',

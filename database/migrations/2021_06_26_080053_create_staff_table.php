@@ -14,7 +14,7 @@ class CreateStaffTable extends Migration
     public function up()
     {
         Schema::create('staffs', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('username',255);
             $table->string('password',255);
             $table->string('last_name',255);
@@ -24,7 +24,7 @@ class CreateStaffTable extends Migration
             $table->text('image')->default('default_reward')->nullable();
             $table->string('phone',11);
             $table->string('email',500);
-            $table->integer('role_id')->unsigned();
+            $table->bigInteger('role_id')->unsigned();
             $table->foreign('role_id')->references('id')->on('roles');
             $table->tinyInteger('status')->default(1);
             $table->timestamps();

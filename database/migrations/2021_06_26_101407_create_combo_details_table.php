@@ -14,10 +14,10 @@ class CreateComboDetailsTable extends Migration
     public function up()
     {
         Schema::create('combo_details', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('product_id')->unsigned();
+            $table->id();
+            $table->bigInteger('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products');
-            $table->integer('combo_id')->unsigned();
+            $table->bigInteger('combo_id')->unsigned();
             $table->foreign('combo_id')->references('id')->on('combos');
             $table->tinyInteger('quantity');
             $table->timestamps();
