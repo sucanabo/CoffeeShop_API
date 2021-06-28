@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function index()
     {
         return response([
-            'products' => Product::orderby('created_at','desc')->get(),
+            'products' => Product::orderby('created_at','desc')->withCount('ratings')->get(),
             'message' => 'success'
         ],200);
     }
@@ -33,12 +33,14 @@ class ProductController extends Controller
             'content' => 'required|string',
         ]);
 
+        $image = $this->saveImage($request->image, 'products');
+
         $product = Product::create([
         'category_id' => $request['category_id'],
         'title'=> $request['title'],
         'type'=> $request['type'],
         'price'=> $request['price'],
-        'image'=> $request['image'],
+        'image'=> $image,
         'content'=> $request['content'],
         ]);
 
@@ -130,6 +132,29 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::find($id);
+
+        if(!$product){
+            return response([
+                'message' => 'Product not found.'
+            ],403);
+        }
+        //Only admin can edit
+        // if(auth()->user()->role_id != 1){
+        //     return response([
+        //         'message' => 'Permission denied.'
+        //     ]);
+        // }
+
+        $product->ratings()->delete();
+        $product->productVouchers()->delete();
+        $product->productOptions()->delete();
+        $product->orderItems()->delete();
+        $product->delete();
+
+        return response([
+            'message' => 'Product deleted.'
+        ],200);
+
     }
 }

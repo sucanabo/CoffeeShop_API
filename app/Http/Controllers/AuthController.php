@@ -79,24 +79,26 @@ class AuthController extends Controller
             ], 200);
         }
     
-        // // update user
-        // public function update(Request $request)
-        // {
-        //     $attrs = $request->validate([
-        //         'first_name' => 'required|string',
-        //         'last_name' => 'required|string'
-        //     ]);
+        // update user
+        public function edit(Request $request)
+        {
+            $attrs = $request->validate([
+                'first_name' => 'string',
+                'last_name' => 'string',
+                'email' =>'string',
+                'phone' => 'string|min:11'
+            ]);
     
-        //     $image = $this->saveImage($request->image, 'profiles');
+            $image = $this->saveImage($request->image, 'profiles');
     
-        //     auth()->user()->update([
-        //         'name' => $attrs['name'],
-        //         'image' => $image
-        //     ]);
+            auth()->user()->update([
+                'name' => $attrs['name'],
+                'image' => $image
+            ]);
     
-        //     return response([
-        //         'message' => 'User updated.',
-        //         'user' => auth()->user()
-        //     ], 200);
-        // }
+            return response([
+                'message' => 'User updated.',
+                'user' => auth()->user()
+            ], 200);
+        }
 }

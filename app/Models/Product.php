@@ -21,15 +21,16 @@ class Product extends Model
     
     protected $fillable = 
     [
-    'category_id',
-    'title','type',
-    'price',
-    'image',
-    'content',
-    'status'
+        'category_id',
+        'title',
+        'type',
+        'price',
+        'image',
+        'content',
+        'status'
     ];
     protected $appends = [
-        'average-rating'
+        'avgRating'
     ];
 
     public $timestamps = true;
@@ -43,7 +44,7 @@ class Product extends Model
         return $this->hasMany(ProductVoucher::class,'product_id','id');
     }
 
-    public function orderitems(){
+    public function orderItems(){
         return $this->hasMany(OrderItem::class,'product_id','id');
     }
 
@@ -54,7 +55,7 @@ class Product extends Model
     public function ratings(){
         return $this->hasMany(Rating::class,'product_id','id');
     }
-    public function avgRating(){
+    public function getAvgRatingAttribute(){
         return round($this->ratings()->avg('star'),1);
     }
 }

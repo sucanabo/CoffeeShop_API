@@ -17,10 +17,6 @@ use App\Http\Controllers\RatingController;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
 // Public routes
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -29,14 +25,15 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::group(['middleware' => ['auth:sanctum']], function() {
     // User
     Route::get('/user', [AuthController::class, 'user']);
-    // Route::put('/user', [AuthController::class, 'update']);
+    Route::put('/user', [AuthController::class, 'edit']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
     // Product
     Route::get('/products',[ProductController::class,'index']); //all product
     Route::get('/products/{id}',[ProductController::class,'show']); //get single product
     Route::post('/products',[ProductController::class,'create']); //create product
-    Route::put('/products/{id}', [ProductController::class, 'edit']); // update post
+    Route::put('/products/{id}', [ProductController::class, 'edit']); // update product
+    Route::delete('/products/{id}', [ProductController::class, 'destroy']); // delete product
 
     // Category
     Route::get('/categories',[CategoryController::class,'index']); //all category
@@ -44,8 +41,8 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::post('/categories',[CategoryController::class,'create']); //all category 
 
     //Rating
-    Route::get('/ratings',[RatingController::class,'index']); //get all rating
-    Route::get('/ratings/{id}',[RatingController::class,'show']); //get single rating
-    Route::post('/ratings',[RatingController::class,'create']); //create rating
+    Route::get('/products/{id}/ratings',[RatingController::class,'index']); //get all rating
+    Route::post('/products/{id}/ratings',[RatingController::class,'create']); //create rating
     Route::put('/ratings/{id}', [RatingController::class, 'edit']); // update rating
+    Route::delete('/ratings/{id}', [RatingController::class, 'destroy']); // destroy rating
 });

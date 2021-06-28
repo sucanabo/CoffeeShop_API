@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Rating;
+use App\Models\Product;
 
 class RatingController extends Controller
 {
@@ -12,10 +13,16 @@ class RatingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
+        $product = Product::find($id);
+
+        if(!$product){
+            return response(['message' => 'Product not found.'], 403);
+        }
+
         return response([
-            'ratings' => Rating::orderby('product_id')->get()
+            'ratings' => $product->ratings()->with('user:id,username')->get()
         ],200);
     }
 
@@ -24,23 +31,28 @@ class RatingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Request $request, $id)
     {
+        $prodcut = Product::find($id);
+
+        if($product){
+            return response(['message' => 'Product not found.'], 403);
+        }
+
         $attrs = $request->validate([
-            'product_id' => 'required',
             'star' => 'required',
         ]);
 
-        $rating = Rating::create([
+        Rating::create([
             'user_id' => auth()->user()->id,
-            'product_id' => $attrs['product_id'],
+            'product_id' => $id,
             'star' => $attrs['star'],
         ]);
 
         return response([
             'message' => 'Rating created.',
-            'rating' => $rating
         ],200);
+        
     }
 
     /**
@@ -71,9 +83,31 @@ class RatingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+        $rating = Rating::find($id);
+
+        if(!$rating){
+            return response([
+                'message' => 'Rating not found.'
+            ],403);
+        }
+
+        if($rating->user_id != auth()->user()->id){
+            return  response([
+                'message' => 'Permission dined.'
+            ], 403);
+        }
+
+        $attrs = $request->validate([
+            'star' => 'required',
+        ]);
+
+        $rating->update([
+            'star' => $attrs['star']
+        ]);
+
+        return response(['message' => 'Rating edited.'],200);
     }
 
     /**
@@ -96,6 +130,20 @@ class RatingController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $rating = Rating::find($id);
+
+        if(!$rating){
+            return response(['message' => 'Rating not found.'],403);
+        }
+
+        if($rating->user_id != auth()->user()->id){
+            return  response([
+                'message' => 'Permission dined.'
+            ], 403);
+        }
+
+        $rating->delete();
+        
+        return response(['message' => 'Rating deleted.'],200);
     }
 }
