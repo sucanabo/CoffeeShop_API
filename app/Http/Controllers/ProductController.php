@@ -154,7 +154,8 @@ class ProductController extends Controller
         $product->ratings()->delete();
         $product->productVouchers()->delete();
         $product->productOptions()->delete();
-        $product->orderItems()->delete();
+        $product->favourites()->delete();
+        // $product->orderItems()->delete();
         $product->delete();
 
         return response([
