@@ -15,8 +15,7 @@ class AuthController extends Controller
             $attrs = $request->validate([
                 'first_name' => 'required|string',
                 'last_name' => 'required|string',
-                'phone' => 'required',
-                'username' => 'required|string',
+                'phone' => 'required|unique:users,phone',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|min:6|confirmed'
             ]);
@@ -27,7 +26,6 @@ class AuthController extends Controller
                 'last_name'=> $attrs['last_name'],
                 'phone'=> $attrs['phone'],
                 'email'=> $attrs['email'],
-                'username' => $attrs['username'],
                 'password' => bcrypt($attrs['password'])
             ]);
     

@@ -10,6 +10,7 @@ use App\Models\ProductVoucher;
 use App\Models\OrderItem;
 use App\Models\Category;
 use App\Models\Rating;
+use App\Models\Favourite;
 
 class Product extends Model
 {
@@ -55,7 +56,10 @@ class Product extends Model
     public function ratings(){
         return $this->hasMany(Rating::class,'product_id','id');
     }
+    public function favourites(){
+        return $this->hasMany(Favourite::class,'product_id','id');
+    }
     public function getAvgRatingAttribute(){
-        return round($this->ratings()->avg('star'),1);
+        return $this->ratings()->avg('star');
     }
 }

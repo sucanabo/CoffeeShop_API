@@ -16,8 +16,17 @@ class ProductController extends Controller
     public function index()
     {
         return response([
-            'products' => Product::orderby('created_at','desc')->withCount('ratings')->get(),
-            'message' => 'success'
+            'message' => 'success',
+            'products' => Product::orderby('created_at','desc')
+            ->withCount('ratings')
+            ->with(
+                'favourites', function($favourite){
+                    return $favourite->where('user_id', auth()->user()->id)
+                    ->select('id','user_id','product_id')
+                    ->get();
+                }
+            )
+            ->get()
         ],200);
     }
 
@@ -30,17 +39,17 @@ class ProductController extends Controller
     {
         $attrs = $request->validate([
             'title' => 'required|string',
-            'content' => 'required|string',
+            'price' => 'required',
         ]);
 
-        $image = $this->saveImage($request->image, 'products');
+        //$image = $this->saveImage($request->image, 'products');
 
         $product = Product::create([
         'category_id' => $request['category_id'],
         'title'=> $request['title'],
         'type'=> $request['type'],
         'price'=> $request['price'],
-        'image'=> $image,
+        'image'=> $request['image'],
         'content'=> $request['content'],
         ]);
 
@@ -98,10 +107,6 @@ class ProductController extends Controller
         //     ]);
         // }
 
-        $attrs = $request->validate([
-            'title' => 'string',
-            'content' => 'string',
-        ]);
         $product->update($request->all());
 
         return response([

@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RatingController;
+use App\Http\Controllers\FavouriteController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -45,4 +46,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::post('/products/{id}/ratings',[RatingController::class,'create']); //create rating
     Route::put('/ratings/{id}', [RatingController::class, 'edit']); // update rating
     Route::delete('/ratings/{id}', [RatingController::class, 'destroy']); // destroy rating
+    
+    //Favourite
+    Route::post('/products/{id}/favourites', [FavouriteController::class, 'checkFavourite']); //check user is favourited product
 });
