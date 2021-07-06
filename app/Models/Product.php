@@ -31,7 +31,8 @@ class Product extends Model
         'status'
     ];
     protected $appends = [
-        'avgRating'
+        'avgRating',
+        'selfRating',
     ];
 
     public $timestamps = true;
@@ -61,5 +62,8 @@ class Product extends Model
     }
     public function getAvgRatingAttribute(){
         return $this->ratings()->avg('star');
+    }
+    public function getSelfRatingAttribute(){
+        return $this->ratings()->where('user_id',auth()->user()->id)->get()->first();
     }
 }

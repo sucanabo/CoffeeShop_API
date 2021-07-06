@@ -25,12 +25,6 @@ class ProductController extends Controller
                     ->get();
                 }
             )
-            ->with(
-                'ratings', function($rating){
-                    return $rating->where('user_id', auth()->user()->id)
-                    ->get();
-                }
-            )
 
             ->get()
         ],200);
