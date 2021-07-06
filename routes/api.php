@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     // Product
     Route::get('/products',[ProductController::class,'index']); //all product
     Route::get('/products/{id}',[ProductController::class,'show']); //get single product
+    Route::post('/products/condition',[ProductController::class,'condition']); //get other product by condition
     Route::post('/products',[ProductController::class,'create']); //create product
     Route::put('/products/{id}', [ProductController::class, 'edit']); // update product
     Route::delete('/products/{id}', [ProductController::class, 'destroy']); // delete product
@@ -43,7 +44,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     //Rating
     Route::get('/products/{id}/ratings',[RatingController::class,'index']); //get all rating
-    Route::post('/products/{id}/ratings',[RatingController::class,'create']); //create rating
+    Route::post('/products/{id}/ratings',[RatingController::class,'ratedOrNot']); //get all rating
     Route::put('/ratings/{id}', [RatingController::class, 'edit']); // update rating
     Route::delete('/ratings/{id}', [RatingController::class, 'destroy']); // destroy rating
     

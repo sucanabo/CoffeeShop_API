@@ -31,27 +31,37 @@ class RatingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, $id)
+    public function ratedOrNot(Request $request, $id)
     {
-        $prodcut = Product::find($id);
+        $product = Product::find($id);
 
-        if($product){
-            return response(['message' => 'Product not found.'], 403);
+        if(!$product){
+            return response(['message' => 'Product not found.'],403);
         }
 
-        $attrs = $request->validate([
-            'star' => 'required',
-        ]);
+        $rating = $product->ratings()->where('user_id', auth()->user()->id)->first();
 
-        Rating::create([
-            'user_id' => auth()->user()->id,
-            'product_id' => $id,
-            'star' => $attrs['star'],
-        ]);
+        //if not rated then create
+        if(!$rating){
+            $attrs = $request->validate([
+                'star' => 'required'
+            ]);
+            
+            $newRating = new Rating;
 
-        return response([
-            'message' => 'Rating created.',
-        ],200);
+            $newRating->product_id = $id;
+            $newRating->user_id = auth()->user()->id;
+            $newRating->star = $request->star;
+            $newRating->review = $request->review;
+
+            $newRating->save();
+            
+            return response(['message' => 'Rating created.', 'rating' => $newRating] ,200);
+        }
+        //else edit
+        $rating->update($request->all());
+        
+        return response(['message' => 'Rating edited.', 'rating' => $rating],200);
         
     }
 

@@ -16,6 +16,7 @@ class Rating extends Model
         'product_id',
         'user_id',
         'star',
+        'review',
     ];
 
     public $timestamps = true;
