@@ -44,9 +44,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     //Rating
     Route::get('/products/{id}/ratings',[RatingController::class,'index']); //get all rating
-    Route::post('/products/{id}/ratings',[RatingController::class,'ratedOrNot']); //get all rating
-    Route::put('/ratings/{id}', [RatingController::class, 'edit']); // update rating
-    Route::delete('/ratings/{id}', [RatingController::class, 'destroy']); // destroy rating
+    Route::post('/products/{id}/ratings',[RatingController::class,'ratedOrNot']); //get all rating/ update rating
     
     //Favourite
     Route::post('/products/{id}/favourites', [FavouriteController::class, 'checkFavourite']); //check user is favourited product
