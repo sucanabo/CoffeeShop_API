@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
-class Option extends Model
+use App\Model\ProductTopping;
+class Topping extends Model
 {
     use HasFactory;
 
-    protected $table = 'options';
+    protected $table = 'toppings';
 
     protected $primaryKey = 'id';
     
@@ -17,7 +17,7 @@ class Option extends Model
     
     public $timestamps = true;
 
-    public function ProductOptions(){
-        return $this->hasMany('App\Models\ProductOption','option_id','id');
+    public function productToppings(){
+        return $this->hasMany(ProductTopping::class,'topping_id','id');
     }
 }

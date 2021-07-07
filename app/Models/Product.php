@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use App\Models\ProductOption;
+use App\Models\ProductTopping;
 use App\Models\ProductVoucher;
 use App\Models\OrderItem;
 use App\Models\Category;
@@ -38,8 +38,8 @@ class Product extends Model
     public $timestamps = true;
 
 
-    public function productOptions(){
-        return $this->hasMany(ProductOption::class,'product_id','id');
+    public function productToppings(){
+        return $this->hasMany(ProductTopping::class,'product_id','id');
     }
 
     public function productVouchers(){

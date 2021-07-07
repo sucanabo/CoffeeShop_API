@@ -48,4 +48,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     
     //Favourite
     Route::post('/products/{id}/favourites', [FavouriteController::class, 'checkFavourite']); //check user is favourited product
+    
+    //Option
+    
 });
