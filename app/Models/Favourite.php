@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Product;
+use App\Models\User;
 
 class Favourite extends Model
 {
@@ -13,15 +15,20 @@ class Favourite extends Model
 
     protected $primaryKey = 'id';
     
-    protected $fillable = ['id','product_id','user_id'];
-    
+
+    protected $fillable = 
+    [
+        'user_id',
+        'product_id'
+    ];
+
     public $timestamps = true;
 
-    public function User(){
-        return $this->belongsTo('App\Models\User','user_id','id');
+    public function product(){
+        return $this->belongsto(Product::class,'product_id','id');
     }
 
-    public function Product(){
-        return $this->belongsTo('App\Models\Product','product_id','id');
+    public function user(){
+        return $this->belongsto(User::class,'user_id','id');
     }
 }

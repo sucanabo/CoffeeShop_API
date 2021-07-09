@@ -18,10 +18,9 @@ class CreateProductTable extends Migration
             $table->bigInteger('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories');
             $table->text('title');
-            $table->enum('type', ['drink', 'food']);
             $table->decimal('price');
             $table->text('image')->default('default_product.png');
-            $table->text('content');
+            $table->text('content')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });

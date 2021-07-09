@@ -16,10 +16,44 @@ class ProductController extends Controller
     public function index()
     {
         return response([
-            'products' => Product::orderby('created_at','desc')->with('avgRating')->get(),
-            'message' => 'success'
+            'message' => 'success',
+            'products' => Product::orderby('created_at','desc')
+            ->with(
+                'favourites', function($favourite){
+                    return $favourite->where('user_id', auth()->user()->id)
+                    ->select('id','user_id','product_id')
+                    ->get();
+                }
+            )
+
+            ->get()
         ],200);
     }
+    public function condition(Request $request){
+        $attrs = $request->validate([
+            'condition' => 'required|string',
+            'limit' => 'required|integer'
+        ]);
+        $condition = $request['condition'];
+        $limit = $request['limit'];
+
+        switch ($condition){
+            case 'new':
+                return response([
+                    'products' => Product::orderby('created_at','desc')->with(
+                        'favourites', function($favourite){
+                            return $favourite->where('user_id', auth()->user()->id)
+                            ->select('id','user_id','product_id')
+                            ->get();
+                        }
+                    )->take($limit)->get()
+                ],200);
+                break;
+            case 'sale': 
+                return response(['message' => 'Coming soon.'],200);
+        }
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -30,8 +64,10 @@ class ProductController extends Controller
     {
         $attrs = $request->validate([
             'title' => 'required|string',
-            'content' => 'required|string',
+            'price' => 'required',
         ]);
+
+        //$image = $this->saveImage($request->image, 'products');
 
         $product = Product::create([
         'category_id' => $request['category_id'],
@@ -72,7 +108,6 @@ class ProductController extends Controller
             'product' => Product::where('id',$id)->get()
         ]);
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -96,10 +131,6 @@ class ProductController extends Controller
         //     ]);
         // }
 
-        $attrs = $request->validate([
-            'title' => 'string',
-            'content' => 'string',
-        ]);
         $product->update($request->all());
 
         return response([
@@ -155,6 +186,30 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::find($id);
+
+        if(!$product){
+            return response([
+                'message' => 'Product not found.'
+            ],403);
+        }
+        //Only admin can edit
+        // if(auth()->user()->role_id != 1){
+        //     return response([
+        //         'message' => 'Permission denied.'
+        //     ]);
+        // }
+
+        $product->ratings()->delete();
+        $product->productVouchers()->delete();
+        $product->productOptions()->delete();
+        $product->favourites()->delete();
+        // $product->orderItems()->delete();
+        $product->delete();
+
+        return response([
+            'message' => 'Product deleted.'
+        ],200);
+
     }
 }

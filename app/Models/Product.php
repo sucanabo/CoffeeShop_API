@@ -5,6 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Models\ProductTopping;
+use App\Models\ProductVoucher;
+use App\Models\OrderItem;
+use App\Models\Category;
+use App\Models\Rating;
+use App\Models\Favourite;
 
 class Product extends Model
 {
@@ -16,19 +22,24 @@ class Product extends Model
     
     protected $fillable = 
     [
-    'category_id',
-    'title','type',
-    'price',
-    'image',
-    'content',
-    'status'
+        'category_id',
+        'title',
+        'type',
+        'price',
+        'image',
+        'content',
+        'status'
     ];
-    
+    protected $appends = [
+        'avgRating',
+        'selfRating',
+    ];
+
     public $timestamps = true;
 
 
-    public function productOptions(){
-        return $this->hasMany('App\Models\ProductOption','product_id','id');
+    public function productToppings(){
+        return $this->hasMany(ProductTopping::class,'product_id','id');
     }
 
     public function Favourites(){
@@ -36,21 +47,27 @@ class Product extends Model
     }
 
     public function productVouchers(){
-        return $this->hasMany('App\Models\ProductVoucher','product_id','id');
+        return $this->hasMany(ProductVoucher::class,'product_id','id');
     }
 
-    public function orderitems(){
-        return $this->hasMany('App\Models\OrderItem','product_id','id');
+    public function orderItems(){
+        return $this->hasMany(OrderItem::class,'product_id','id');
     }
 
     public function category(){
-        return $this->belongsTo('App\Models\Category','category_id','id');
+        return $this->belongsTo(Category::class,'category_id','id');
     }
 
     public function ratings(){
-        return $this->hasMany('App\Models\Rating','product_id','id');
+        return $this->hasMany(Rating::class,'product_id','id');
     }
-    public function avgRating(){
-        return $this->ratings->select('*', DB::raw('AVG(star) as avg_rating'));
+    public function favourites(){
+        return $this->hasMany(Favourite::class,'product_id','id');
+    }
+    public function getAvgRatingAttribute(){
+        return $this->ratings()->avg('star');
+    }
+    public function getSelfRatingAttribute(){
+        return $this->ratings()->where('user_id',auth()->user()->id)->get()->first();
     }
 }

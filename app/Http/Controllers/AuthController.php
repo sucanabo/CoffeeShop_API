@@ -15,8 +15,7 @@ class AuthController extends Controller
             $attrs = $request->validate([
                 'first_name' => 'required|string',
                 'last_name' => 'required|string',
-                'phone' => 'required',
-                'username' => 'required|string',
+                'phone' => 'required|unique:users,phone',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|min:6|confirmed'
             ]);
@@ -27,7 +26,6 @@ class AuthController extends Controller
                 'last_name'=> $attrs['last_name'],
                 'phone'=> $attrs['phone'],
                 'email'=> $attrs['email'],
-                'username' => $attrs['username'],
                 'password' => bcrypt($attrs['password'])
             ]);
     
@@ -79,25 +77,27 @@ class AuthController extends Controller
             ], 200);
         }
 
- 
-        // // update user
-        // public function update(Request $request)
-        // {
-        //     $attrs = $request->validate([
-        //         'first_name' => 'required|string',
-        //         'last_name' => 'required|string'
-        //     ]);
     
-        //     $image = $this->saveImage($request->image, 'profiles');
+        // update user
+        public function edit(Request $request)
+        {
+            $attrs = $request->validate([
+                'first_name' => 'string',
+                'last_name' => 'string',
+                'email' =>'string',
+                'phone' => 'string|min:11'
+            ]);
     
-        //     auth()->user()->update([
-        //         'name' => $attrs['name'],
-        //         'image' => $image
-        //     ]);
+            $image = $this->saveImage($request->image, 'profiles');
     
-        //     return response([
-        //         'message' => 'User updated.',
-        //         'user' => auth()->user()
-        //     ], 200);
-        // }
+            auth()->user()->update([
+                'name' => $attrs['name'],
+                'image' => $image
+            ]);
+    
+            return response([
+                'message' => 'User updated.',
+                'user' => auth()->user()
+            ], 200);
+        }
 }

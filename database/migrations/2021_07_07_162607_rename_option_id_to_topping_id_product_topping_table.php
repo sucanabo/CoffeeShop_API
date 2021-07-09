@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCategoriesTable extends Migration
+class RenameOptionIdToToppingIdProductToppingTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->text('title');
-            $table->enum('type', ['drink', 'food']);
-            $table->tinyInteger('status')->default(1);
-            $table->timestamps();
+        Schema::table('product_toppings', function (Blueprint $table) {
+            $table->renameColumn('option_id', 'topping_id');
         });
     }
 
@@ -29,6 +25,8 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::table('product_toppings', function (Blueprint $table) {
+            $table->renameColumn('topping_id', 'option_id');
+        });
     }
 }
