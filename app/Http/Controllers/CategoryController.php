@@ -35,6 +35,7 @@ class CategoryController extends Controller
         ],200);
     }
 
+
     /**
      * Store a newly created resource in storage.
      *
@@ -58,6 +59,18 @@ class CategoryController extends Controller
             'category' => Category::where('id',$id)->get()
         ]);
     }
+
+
+    // Tìm Kiếm Sản Phẩm Theo từng Thể Loại
+    public function list_category(Request $request)
+    {
+        $categories = category::all();
+        return response()->json([
+            'code'=> 200,
+            'message'=> $categories
+        ],200);
+    }
+
 
     /**
      * Show the form for editing the specified resource.
