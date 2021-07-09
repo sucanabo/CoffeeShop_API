@@ -31,6 +31,10 @@ class Product extends Model
         return $this->hasMany('App\Models\ProductOption','product_id','id');
     }
 
+    public function Favourites(){
+        return $this->hasMany('App\Models\Favourite','product_id','id');
+    }
+
     public function productVouchers(){
         return $this->hasMany('App\Models\ProductVoucher','product_id','id');
     }

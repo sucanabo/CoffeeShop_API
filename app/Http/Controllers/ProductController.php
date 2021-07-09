@@ -109,6 +109,31 @@ class ProductController extends Controller
 
 
     }
+    // Tìm Kiếm Sản Phẩm Theo từng Thể Loại
+    public function search_product_by_category(Request $request)
+    {
+        $attrs = $request->validate([
+            'category_id' => 'string|required',
+        ]);
+        $product = Product::where('category_id',$request->category_id)->get();
+        return response([
+            'message' => '200',
+            'list_product' => $product
+        ],200);
+    }
+
+    //Search Product Tìm Kiếm Sản Phẩm Trên Thanh Search trong giao diện Đặt Món
+    public function search_product(Request $request)
+    {
+        $query = $request->search;
+        $product = Product::where('title', 'LIKE', "%{$query}%")->get();
+        return response([
+            'message' => '200',
+            'list_product' => $product
+        ],200);
+    }
+
+
 
     /**
      * Update the specified resource in storage.
