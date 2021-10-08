@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RatingController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\UserVoucherController;
 use App\Http\Controllers\VoucherController;
@@ -44,8 +45,20 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     // Category
     Route::get('/categories',[CategoryController::class,'index']); //all category
-    Route::get('/categories/{id}',[CategoryController::class,'show']); //all category 
-    Route::post('/categories',[CategoryController::class,'create']); //all category 
+    Route::get('/categories/{id}',[CategoryController::class,'show']); //show category 
+    Route::post('/categories',[CategoryController::class,'create']); //create category 
+
+    
+
+    Route::get('/accumulate_points',[UserController::class,'accumulate_points']); // accumulate points
+    Route::post('/favourite',[UserController::class,'favourite']); // favourites food
+    Route::get('/show_favourite',[UserController::class,'show_favourite']); // favourites food
+    Route::get('/show_detail_user',[UserController::class,'show']); // Detail User
+    Route::post('/update_profile',[UserController::class,'update_profile']); // Update Profile (Update tổng thông tin khách hàng)
+    Route::post('/update_Login',[UserController::class,'update_Login']); // Update Username,Email,Password (Trường hợp này nếu giao diện trang có phần đổi mật khẩu username riêng)
+    Route::post('/search_product_by_category',[ProductController::class,'search_product_by_category']); // Search Category (Giúp Khách Hàng Chọn Món ở Mục Thực Đơn , của Đặt Món) 
+    Route::get('/list_category',[CategoryController::class,'list_category']); // Search Category (Giúp Khách Hàng Chọn Món ở Mục Thực Đơn , của Đặt Món) 
+    Route::post('/search_product',[ProductController::class,'search_product']); // Search Product (Giúp Khách Hàng Tìm Các Món Ăn Gần Đúng) 
 
     //Rating
     Route::get('/products/{id}/ratings',[RatingController::class,'index']); //get all rating

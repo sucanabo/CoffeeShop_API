@@ -75,6 +75,7 @@ class AuthController extends Controller
                 'user' => auth()->user()
             ], 200);
         }
+
     
         // update user
         public function edit(Request $request)
