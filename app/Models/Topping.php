@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Model\ProductTopping;
+use App\Models\ProductTopping;
 class Topping extends Model
 {
     use HasFactory;

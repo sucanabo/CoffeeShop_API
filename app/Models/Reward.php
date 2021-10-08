@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\DB;
+use App\Models\Voucher;
+use App\Models\UserVoucher;
 class Reward extends Model
 {
     use HasFactory;
@@ -12,21 +14,24 @@ class Reward extends Model
     protected $table = 'rewards';
 
     protected $primaryKey = 'id';
-
     protected $fillable = [
+        'voucher_id',
         'title',
+        'brand_name',
         'content',
-        'image',
-        'start_date',
-        'expiry_date',
         'point',
-        'content',
         'status',
+    ];
+    protected $appends = [
+        'exchangeCount',
     ];
 
     public $timestamps = true;
 
-    public function UserRewards(){
-        return $this->hasManys('App\Models\UserReward','reward_id','id');
+    public function voucher(){
+        return $this->belongsTo(Voucher::class,'voucher_id','id');
+    }
+    public function getExchangeCountAttribute(){
+        return UserVoucher::where('voucher_id',$this->voucher_id)->count();
     }
 }

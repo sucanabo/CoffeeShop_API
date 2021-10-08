@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Address;
 
 class AuthController extends Controller
 {
@@ -13,8 +14,7 @@ class AuthController extends Controller
         {
             //validate fields
             $attrs = $request->validate([
-                'first_name' => 'required|string',
-                'last_name' => 'required|string',
+                'display_name' => 'required|string',
                 'phone' => 'required|unique:users,phone',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|min:6|confirmed'
@@ -22,8 +22,7 @@ class AuthController extends Controller
     
             //create user
             $user = User::create([
-                'first_name' => $attrs['first_name'],
-                'last_name'=> $attrs['last_name'],
+                'display_name' => $attrs['display_name'],
                 'phone'=> $attrs['phone'],
                 'email'=> $attrs['email'],
                 'password' => bcrypt($attrs['password'])
@@ -41,7 +40,7 @@ class AuthController extends Controller
         {
             //validate fields
             $attrs = $request->validate([
-                'email' => 'required|email',
+                'phone' => 'required',
                 'password' => 'required|min:6'
             ]);
     
@@ -81,22 +80,20 @@ class AuthController extends Controller
         public function edit(Request $request)
         {
             $attrs = $request->validate([
-                'first_name' => 'string',
-                'last_name' => 'string',
-                'email' =>'string',
+                'display_name' => 'string',
+                'image'=>'string',
+                'email' =>'string|email',
                 'phone' => 'string|min:11'
             ]);
-    
-            $image = $this->saveImage($request->image, 'profiles');
-    
-            auth()->user()->update([
-                'name' => $attrs['name'],
-                'image' => $image
-            ]);
+            if($request['image'] != null){
+                auth()->user()->image = $request['image'];
+            }
+            auth()->user()->update($request->all());
     
             return response([
                 'message' => 'User updated.',
-                'user' => auth()->user()
+                'user' => auth()->user(),
             ], 200);
         }
+       
 }

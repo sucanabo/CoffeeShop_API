@@ -17,7 +17,7 @@ class ProductController extends Controller
     {
         return response([
             'message' => 'success',
-            'products' => Product::orderby('created_at','desc')
+            'products' => Product::orderby('created_at','asc')
             ->with(
                 'favourites', function($favourite){
                     return $favourite->where('user_id', auth()->user()->id)
@@ -25,7 +25,11 @@ class ProductController extends Controller
                     ->get();
                 }
             )
-
+            ->with('productToppings', function($product){
+                return $product->join('toppings','topping_id','=','toppings.id')
+                ->join('toppings as t','topping_id','=','t.id')
+                ->get();
+            })
             ->get()
         ],200);
     }
@@ -52,139 +56,5 @@ class ProductController extends Controller
             case 'sale': 
                 return response(['message' => 'Coming soon.'],200);
         }
-    }
-
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
-    {
-        $attrs = $request->validate([
-            'title' => 'required|string',
-            'price' => 'required',
-        ]);
-
-        //$image = $this->saveImage($request->image, 'products');
-
-        $product = Product::create([
-        'category_id' => $request['category_id'],
-        'title'=> $request['title'],
-        'type'=> $request['type'],
-        'price'=> $request['price'],
-        'image'=> $request['image'],
-        'content'=> $request['content'],
-        ]);
-
-        return response([
-            'message' => 'Product created.',
-            'product' => $product,
-            
-        ]);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        return response([
-            'product' => Product::where('id',$id)->get()
-        ]);
-    }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Request $request, $id)
-    {
-        $product = Product::find($id);
-
-        if(!$product){
-            return response([
-                'message' => 'Product not found.'
-            ],403);
-        }
-        
-        //Only admin can edit
-        // if(auth()->user()->role_id != 1){
-        //     return response([
-        //         'message' => 'Permission denied.'
-        //     ]);
-        // }
-
-        $product->update($request->all());
-
-        return response([
-            'message' => 'Product edited.',
-            'product' => $product
-        ],200);
-
-
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $product = Product::find($id);
-
-        if(!$product){
-            return response([
-                'message' => 'Product not found.'
-            ],403);
-        }
-        //Only admin can edit
-        // if(auth()->user()->role_id != 1){
-        //     return response([
-        //         'message' => 'Permission denied.'
-        //     ]);
-        // }
-
-        $product->ratings()->delete();
-        $product->productVouchers()->delete();
-        $product->productOptions()->delete();
-        $product->favourites()->delete();
-        // $product->orderItems()->delete();
-        $product->delete();
-
-        return response([
-            'message' => 'Product deleted.'
-        ],200);
-
     }
 }

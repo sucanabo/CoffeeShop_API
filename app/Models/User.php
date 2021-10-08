@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Address;
+use App\Models\Cart;
+use App\Models\Rating;
+use App\Models\Order;
+use App\Models\UserReward;
+use App\Models\Transaction;
+
 
 class User extends Authenticatable
 {
@@ -18,8 +25,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name',
-        'last_name',
+        'display_name',
         'gender',
         'birthday',
         'avatar',
@@ -53,21 +59,24 @@ class User extends Authenticatable
     ];
 
     public function Orders(){
-        return $this->hasMany('App\Models\Order','user_id','id');
+        return $this->hasMany(Order::class,'user_id','id');
     }
 
     public function UserRewards(){
-        return $this->hasMany('App\Models\UserReward','user_id','id');
+        return $this->hasMany(UserReward::class,'user_id','id');
     }
-
+    public function Address(){
+        return $this->hasMany(Address::class,'user_id','id');
+    }
     public function Transactions(){
-        return $this->hasManys('App\Models\Transaction','user_id','id');
+        return $this->hasManys(Transaction::class,'user_id','id');
     }
 
     public function Cart(){
-        return $this->hasManys('App\Models\Cart','user_id','id');
+        return $this->hasManys(Cart::class,'user_id','id');
     }
     public function Rating(){
-        return $this->belongsTo('App\Models\Rating','user_id','id');
+        return $this->belongsTo(Rating::class,'user_id','id');
     }
+    
 }

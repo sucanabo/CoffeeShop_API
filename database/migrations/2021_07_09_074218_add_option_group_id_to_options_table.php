@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class RenameOptionIdToToppingIdProductToppingTable extends Migration
+class AddOptionGroupIdToOptionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class RenameOptionIdToToppingIdProductToppingTable extends Migration
      */
     public function up()
     {
-        Schema::table('product_toppings', function (Blueprint $table) {
-            $table->renameColumn('option_id', 'topping_id');
+        Schema::table('options', function (Blueprint $table) {
+            $table->bigInteger('option_group_id')->unsigned();
+            $table->foreign('option_group_id')->references('id')->on('option_groups');
         });
     }
 
@@ -25,8 +26,8 @@ class RenameOptionIdToToppingIdProductToppingTable extends Migration
      */
     public function down()
     {
-        Schema::table('product_toppings', function (Blueprint $table) {
-            $table->renameColumn('topping_id', 'option_id');
+        Schema::table('options', function (Blueprint $table) {
+            //
         });
     }
 }

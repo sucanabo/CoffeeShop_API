@@ -7,6 +7,11 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\FavouriteController;
+use App\Http\Controllers\UserVoucherController;
+use App\Http\Controllers\VoucherController;
+use App\Http\Controllers\RewardController;
+use App\Http\Controllers\AddressController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -49,6 +54,19 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     //Favourite
     Route::post('/products/{id}/favourites', [FavouriteController::class, 'checkFavourite']); //check user is favourited product
     
-    //Option
-    
+    //Voucher
+    Route::get('/uservouchers',[UserVoucherController::class,'index']);
+    Route::post('/uservouchers/{id}/save',[UserVoucherController::class,'saveVoucher']);
+    Route::delete('/uservouchers/{id}/use', [UserVoucherController::class,'useVoucher']);
+    //Reward
+    Route::get('/rewards',[RewardController::class,'index']);
+    //Voucher
+    Route::get('/vouchers',[VoucherController::class,'index']);
+
+    //Address
+    Route::get('/addresses', [AddressController::class, 'addresses']);
+    Route::post('/addresses/create', [AddressController::class, 'create']);
+    Route::put('/addresses/{id}/edit', [AddressController::class, 'edit']);
+    Route::delete('/addresses/{id}/delete', [AddressController::class, 'delete']);
+
 });

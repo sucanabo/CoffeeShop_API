@@ -7,20 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Topping;
 use App\Models\Product;
 
-class ProductTopping extends Model
+class ProductOption extends Model
 {
     use HasFactory;
 
-    protected $table = 'product_toppings';
+    protected $table = 'product_options';
 
     protected $primaryKey = 'id';
     
-    protected $fillable = ['product_id','topping_id','status',];
+    protected $fillable = ['product_id','option_id','title','price','default','status'];
     
     public $timestamps = true;
 
-    public function topping(){
-        return $this->belongsTo(Topping::class,'topping_id','id');
+    public function option(){
+        return $this->belongTo(Option::class,'option_id','id');
     }
     public function product(){
         return $this->belongsTo(Product::class,'product_id','id');
