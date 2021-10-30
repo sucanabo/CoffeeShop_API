@@ -62,13 +62,13 @@ class User extends Authenticatable
 
         'address',
 
-        'level',
+        'level' => 'integer',
 
-        'point',
+        'point'=> 'integer',
 
         'qr_code',
 
-        'status',
+        'status' => 'integer',
 
         'phone',
 

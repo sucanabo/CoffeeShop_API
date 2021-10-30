@@ -53,6 +53,7 @@ class OrderController extends Controller
             $latestOrder = Order::orderBy('created_at','DESC')->first();
              $transaction = Transaction::create([
                 'user_id' =>  auth()->user()->id,
+                'delivery_method' => $request['delivery_method'],
                 'order_id' => $order->id,
                 'code' => '#'.str_pad($latestOrder->id + 1, 8, "0", STR_PAD_LEFT),
                 'type' => 'cash',
