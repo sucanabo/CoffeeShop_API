@@ -14,13 +14,13 @@ class Transaction extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'customer_id',
+        'user_id',
         'order_id',
         'code',
         'type',
         'mode',
         'status',
-        'content',
+        'content'
     ];
     
     public $timestamps = true;

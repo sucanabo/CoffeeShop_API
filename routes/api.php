@@ -168,7 +168,4 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     //order
     Route::post('/orders', [OrderController::class, 'create']);
-
-
-
 });
