@@ -8,6 +8,7 @@ use App\Models\OrderItem;
 use App\Models\User;
 use App\Models\UserVoucher;
 use App\Models\Product;
+use App\Models\Transaction;
 
 use DB;
 
@@ -21,13 +22,13 @@ class OrderController extends Controller
                 'user_id' => 'required',
                 'address_id' => 'required',
             ]);
+            //get item list
             $items = $request['items'];
-            $user = User::find($request->user_id);
 
             //create order
             $order = Order::create(
                 [
-                    'user_id' => $request['user_id'],
+                    'user_id' => auth()->user()->id,
                     'address_id' => $request['address_id'],
                     'shipping' => $request['shipping'],
                     'subtotal' => $request['subtotal'],
@@ -50,7 +51,15 @@ class OrderController extends Controller
                  ]);
              }
             //create and updat transaction 
-             
+            $latestOrder = Order::orderBy('created_at','DESC')->first();
+             $transaction = Transaction::create([
+                'user_id' =>  auth()->user()->id,
+                'order_id' => $order->id,
+                'code' => '#'.str_pad($latestOrder->id + 1, 8, "0", STR_PAD_LEFT),
+                'type' => 'cash',
+                'mode' => 'online',
+                'status' => 'pending',
+             ]);
 
             // //delete user voucher
             // $promos = $request['promo'];
@@ -72,7 +81,7 @@ class OrderController extends Controller
             // }
 
             DB::commit();
-            return response(['message' => 'success','data' => $order],200);
+            return response(['message' => 'success','data' => $transaction],200);
         }
         catch(Exception $e){
             DB::rollback();
