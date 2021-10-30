@@ -19,7 +19,6 @@ class OrderController extends Controller
         try{
             //validate
             $attrs = $request->validate([
-                'user_id' => 'required',
                 'address_id' => 'required',
             ]);
             //get item list
