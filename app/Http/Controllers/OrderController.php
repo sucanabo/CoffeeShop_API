@@ -14,6 +14,11 @@ use DB;
 
 class OrderController extends Controller
 {
+    function getPage(Request $request){
+        $orders = Order::paginate(10);
+        return Response(['message'=>'success','totalRow'=> count($order),'data'=>$order]);
+    }
+
     function create(Request $request){
         DB::beginTransaction();
         try{
@@ -85,6 +90,7 @@ class OrderController extends Controller
         }
         catch(Exception $e){
             DB::rollback();
+            return response(['message' => 'create order failded'],500);
             throw new Exception($e -> getMessage());
         }
     }
