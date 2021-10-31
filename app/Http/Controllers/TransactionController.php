@@ -8,21 +8,27 @@ use App\Models\Transaction;
 class TransactionController extends Controller
 {
     function getPage(Request $request){
-        $limit =  $request['limit']??10;
-        $page = $request['page']??1;
-        $status = $request['status'];
-        $query = Transaction::query()->with('order',function($order){
+       
+
+        $query = Transaction::query()->with('order')->with('order',function($order){
             return $order->with('address')->get();
         });
-        if($status != null){
+        
+        if($status = $request['status']){
             $query->where('status',$status);
         }
+        
+        $query->where('user_id', auth()->user()->id);
+        $query->orderBy('created_at','DESC');
+
+        $limit =  $request['limit']??10;
+        $page = $request['page']??1;
+        $totalRow = $query->count();
+
         $result = $query->offset(($page - 1) * $limit)
             ->limit($limit)
-            ->where('user_id', auth()->user()->id)
-            ->orderBy('created_at','DESC')
             ->get();
-        $totalRow = $query->count();
+        
 
         return Response([
             'message'=>'success',
