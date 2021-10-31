@@ -14,7 +14,13 @@ use DB;
 
 class OrderController extends Controller
 {
-
+    function show($id){
+        $order = Order::find($id);
+        if(!$order){
+            return response(['message' => 'Order not found.'],403);
+        }
+        return response(['message' => 'success', 'data' => $order->with('orderItems')],200);
+    }
     function create(Request $request){
         DB::beginTransaction();
         try{

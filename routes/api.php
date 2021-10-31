@@ -169,6 +169,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     //order
     Route::post('/orders', [OrderController::class, 'create']);
+    Route::get('/orders/{id}', [OrderController::class, 'show']);
     //transaction
     Route::post('/transactions', [TransactionController::class, 'getPage']);
 });
