@@ -21,8 +21,6 @@ class TransactionController extends Controller
         return Response([
             'message'=>'success',
             'totalRow'=> $totalRow,
-            'limit' => $request['limit'],
-            'page'=>$request['page'],
             'data'=>$result]
         );
     }
