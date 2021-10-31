@@ -11,7 +11,7 @@ class TransactionController extends Controller
         $limit =  $request['limit']??10;
         $page = $request['page']??1;
         $status = $request['status'];
-        $query = Transaction::query();
+        $query = Transaction::query()->with('order');
         if($status != null){
             $query->where('status',$status);
         }
