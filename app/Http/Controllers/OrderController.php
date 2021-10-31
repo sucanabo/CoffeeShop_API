@@ -14,12 +14,12 @@ use DB;
 
 class OrderController extends Controller
 {
-    function show($id){
+    function items($id){
         $order = Order::find($id);
         if(!$order){
             return response(['message' => 'Order not found.'],403);
         }
-        $query = $order->where('id', $id)->with('orderItems')->first();
+        $query = OrderItem::where('order_id', $id)->get();
         return response(['message' => 'success', 'data' => $query],200);
     }
     function create(Request $request){
