@@ -27,6 +27,7 @@ use App\Http\Controllers\RewardController;
 use App\Http\Controllers\AddressController;
 
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\TransactionController;
 
 
 
@@ -168,5 +169,6 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     //order
     Route::post('/orders', [OrderController::class, 'create']);
-    Route::get('/orders', [OrderController::class, 'getPage']);
+    //transaction
+    Route::post('/transactions', [TransactionController::class, 'getPage']);
 });

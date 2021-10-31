@@ -14,14 +14,6 @@ use DB;
 
 class OrderController extends Controller
 {
-    function getPage(Request $request){
-        $limit =  $request['limit']??10;
-        $page_index = $request['page_index']??1;
-        $query  = Order::query();
-        $result = $query->offset(($page -1) * $limit )->limit($limit)->get();
-
-        return Response(['message'=>'success','totalRow'=> count($query),'data'=>$result]);
-    }
 
     function create(Request $request){
         DB::beginTransaction();
