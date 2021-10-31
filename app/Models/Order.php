@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Order;
 use App\Models\User;
+use App\Models\Address;
 
 
 class Order extends Model
@@ -68,7 +69,9 @@ class Order extends Model
         return $this->hasMany(OrderItem::class,'order_id','id');
 
     }
-
+    public function address(){
+        return $this->belongsTo(Address::class,'address_id','id'); 
+    }
 
 
     public function user(){
