@@ -15,7 +15,11 @@ class TransactionController extends Controller
         if($status != null){
             $query->where('status',$status);
         }
-        $result = $query->offset(($page - 1) * $limit)->limit($limit)->where('user_id', auth()->user()->id)->get();
+        $result = $query->offset(($page - 1) * $limit)
+            ->limit($limit)
+            ->where('user_id', auth()->user()->id)
+            ->orderBy('created_at','DESC')
+            ->get();
         $totalRow = $query->count();
 
         return Response([
