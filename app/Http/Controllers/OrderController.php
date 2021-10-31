@@ -19,7 +19,7 @@ class OrderController extends Controller
         if(!$order){
             return response(['message' => 'Order not found.'],403);
         }
-        $query = Order::where('id', $id)->first()->with('orderItems');
+        $query = Order::where('id', $id)->first()->with('orderItems')->get();
         return response(['message' => 'success', 'data' => $query],200);
     }
     function create(Request $request){
