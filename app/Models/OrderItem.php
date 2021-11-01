@@ -49,11 +49,6 @@ class OrderItem extends Model
 
     ];
 
-    protected $appends = [
-
-        'product',
-    ];
-
     public $timestamps = true;
 
 
@@ -66,12 +61,6 @@ class OrderItem extends Model
     public function order(){
 
         return $this->belongsTo(Order::class,'order_id','id');
-
-    }public function getProductAttribute(){
-
-        $productId = $this->product_id;
-
-        return DB::table('products as p')->where('id',$productId)->select('p.title')->first();
 
     }
 

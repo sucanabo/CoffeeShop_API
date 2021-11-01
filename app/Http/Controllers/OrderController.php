@@ -54,6 +54,7 @@ class OrderController extends Controller
                     'product_id' => $index['product_id'],
                     'item_detail' => json_encode($index['item_detail']),
                     'quantity' => $index['quantity'],
+                    'price' => $index['price'],
                     'content' => $index['content'],
                  ]);
              }
