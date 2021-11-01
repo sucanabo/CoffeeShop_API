@@ -3,6 +3,9 @@
 
 
 namespace App\Models;
+use App\Models\Product;
+use App\Models\Order;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -46,23 +49,29 @@ class OrderItem extends Model
 
     ];
 
+    protected $appends = [
 
+        'product',
+    ];
 
     public $timestamps = true;
 
 
 
-    public function Product(){
+    public function product(){
 
-        return $this->belongsTo('App\Models\Product','product_id','id');
+        return $this->belongsTo(Product:: class,'product_id','id');
 
     }
+    public function order(){
 
+        return $this->belongsTo(Order::class,'order_id','id');
 
+    }public function getProductAttribute(){
 
-    public function Order(){
+        $productId = $this->product_id;
 
-        return $this->belongsTo('App\Models\Order','order_id','id');
+        return DB::table('products as p')->where('id',$productId)->select('p.title')->first();
 
     }
 
