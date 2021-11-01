@@ -11,7 +11,7 @@ class TransactionController extends Controller
        
 
         $query = Transaction::query()->with('order')->with('order',function($order){
-            return $order->with('address')->get();
+            return $order->with('address')->with('orderItems')->get();
         });
         
         if($status = $request['status']){
