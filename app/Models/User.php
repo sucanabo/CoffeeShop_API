@@ -113,7 +113,10 @@ class User extends Authenticatable
     protected $casts = [
 
         'email_verified_at' => 'datetime',
-
+        'point' => 'integer',
+        'total_point' => 'integer',
+        'level' => 'integer',
+        'status' => 'integer',
     ];
 
 
