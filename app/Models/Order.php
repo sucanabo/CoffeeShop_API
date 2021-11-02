@@ -62,7 +62,6 @@ class Order extends Model
 
     public $timestamps = true;
     protected $casts = [
-        "product_id"=> 'integer',
         'table_number' => 'integer',
         'staff_id' => 'integer',
         'user_id' => 'integer',
