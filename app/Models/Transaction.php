@@ -25,7 +25,10 @@ class Transaction extends Model
     ];
     
     public $timestamps = true;
-
+    protected $casts = [
+        'user_id' => 'integer',
+        'order_id' => 'integer',
+    ];
     public function User(){
         return $this->belongsTo('App\Models\User','user_id','id');
     }

@@ -16,7 +16,9 @@ class Category extends Model
     protected $fillable = ['title','status'];
     
     public $timestamps = true;
-
+    protected $casts = [
+        'status' => 'integer',
+    ];
     public function Products(){
         return $this->hasMany('App\Models\Product','category_id','id');
     }

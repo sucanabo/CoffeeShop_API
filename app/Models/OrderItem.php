@@ -51,7 +51,10 @@ class OrderItem extends Model
 
     public $timestamps = true;
 
-
+    protected $casts = [
+        'order_id' => 'integer',
+        'quantity' => 'integer',
+    ];
 
     public function product(){
 

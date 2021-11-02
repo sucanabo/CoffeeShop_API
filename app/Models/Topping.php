@@ -34,7 +34,9 @@ class Topping extends Model
 
     public $timestamps = true;
 
-
+    protected $casts = [
+        'status' => 'integer',
+    ];
 
     public function productToppings(){
 

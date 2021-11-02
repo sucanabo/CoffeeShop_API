@@ -18,7 +18,12 @@ class ProductOption extends Model
     protected $fillable = ['product_id','option_id','title','price','default','status'];
     
     public $timestamps = true;
-
+    protected $casts = [
+        'product_id' => 'integer',
+        'option_id' => 'integer',
+        'default' => 'integer',
+        'status' => 'integer',
+    ];
     public function option(){
         return $this->belongTo(Option::class,'option_id','id');
     }

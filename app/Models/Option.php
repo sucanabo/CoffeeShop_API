@@ -14,10 +14,13 @@ class Option extends Model
 
     protected $primaryKey = 'id';
     
-    protected $fillable = ['title','description','price','status'];
+    protected $fillable = ['title','option_group_id','status'];
     
     public $timestamps = true;
 
+    protected $casts = [
+        'option_group_id' => 'integer'
+    ];
     public function productOptions(){
         return $this->hasMany(ProductTopping::class,'option_id','id');
     }

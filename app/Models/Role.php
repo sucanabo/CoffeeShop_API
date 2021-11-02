@@ -33,7 +33,9 @@ class Role extends Model
     
 
     public $timestamps = true;
-
+    protected $casts = [
+        'status' => 'integer',
+    ];
 
 
     public function Staffs(){

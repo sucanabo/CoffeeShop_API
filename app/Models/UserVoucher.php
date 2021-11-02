@@ -25,7 +25,11 @@ class UserVoucher extends Model
     ];
     
     public $timestamps = true;
-
+    protected $casts = [
+        'user_id' => 'integer',
+        'voucher_id' => 'integer',
+        'status' => 'integer',
+    ];
 
     public function user(){
         return $this->belongsTo(User::class,'user_id','id');

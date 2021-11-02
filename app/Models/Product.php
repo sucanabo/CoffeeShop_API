@@ -151,6 +151,10 @@ class Product extends Model
         
 
     }
+    protected $casts = [
+        'category_id' => 'integer',
+        'status' => 'integer',
+    ];
 
     public function productOptions(){
 

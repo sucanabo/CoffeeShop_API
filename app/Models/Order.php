@@ -61,7 +61,14 @@ class Order extends Model
 
 
     public $timestamps = true;
-
+    protected $casts = [
+        'table_number' => 'integer',
+        'staff_id' => 'integer',
+        'user_id' => 'integer',
+        'user_id' => 'integer',
+        'address_id' => 'integer',
+        'status' => 'integer',
+    ];
 
 
     public function orderItems(){

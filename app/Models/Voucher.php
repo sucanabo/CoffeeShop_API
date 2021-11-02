@@ -71,7 +71,10 @@ class Voucher extends Model
     
 
     public $timestamps = true;
-
+    protected $casts = [
+        'discount' => 'integer',
+        'status' => 'integer',
+    ];
     public function userVouchers (){
 
         return $this->hasMany(UserVoucher::class,'voucher_id','id');

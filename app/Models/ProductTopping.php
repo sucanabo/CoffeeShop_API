@@ -18,7 +18,11 @@ class ProductTopping extends Model
     protected $fillable = ['product_id','topping_id','status',];
     
     public $timestamps = true;
-
+    protected $casts = [
+        'product_id' => 'integer',
+        'topping_id' => 'integer',
+        'status' => 'integer',
+    ];
     public function topping(){
         return $this->belongsTo(Topping::class,'topping_id','id');
     }

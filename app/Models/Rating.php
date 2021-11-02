@@ -18,6 +18,11 @@ class Rating extends Model
         'star',
         'review',
     ];
+    protected $casts = [
+        'product_id' => 'integer',
+        'user_id' => 'integer',
+        'star' => 'integer',
+    ];
 
     public $timestamps = true;
 

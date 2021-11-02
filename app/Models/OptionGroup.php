@@ -17,7 +17,9 @@ class OptionGroup extends Model
     protected $fillable = ['title','status'];
     
     public $timestamps = true;
-
+    protected $casts = [
+        'status' => 'integer'
+    ];
     public function options(){
         return $this->hasMany(Option::class,'option_group_id','id');
     }

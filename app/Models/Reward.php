@@ -51,13 +51,12 @@ class Reward extends Model
         'exchangeCount',
 
     ];
-
-
-
     public $timestamps = true;
-
-
-
+    protected $casts = [
+        'voucher_id' => 'integer',
+        'point' => 'integer',
+        'status' => 'integer',
+    ];
     public function voucher(){
 
         return $this->belongsTo(Voucher::class,'voucher_id','id');

@@ -19,4 +19,7 @@ class Discount extends Model
         'start_date',
         'expiry_date',
     ];
+    protected $casts = [
+        'discount' => 'integer',
+    ];
 }
