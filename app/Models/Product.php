@@ -29,7 +29,7 @@ use App\Models\Option;
 use App\Models\OptionGroup;
 
 use App\Models\Discount;
-
+use Carbon\Carbon;
 
 
 class Product extends Model
@@ -215,8 +215,7 @@ class Product extends Model
 
         $productId = $this->id;
 
-        return DB::table('discounts')->whereRaw('FIND_IN_SET(?,products)',[$productId])->get();
-
+        return DB::table('discounts')->whereRaw('FIND_IN_SET(?,products)',[$productId])->whereDate('expiry_date', '>=',Carbon::today())->get();
     }
 
 }

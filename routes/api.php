@@ -57,6 +57,7 @@ use App\Http\Controllers\TransactionController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/check_phone', [AuthController::class, 'checkPhone']);
+Route::post('/check_email', [AuthController::class, 'checkEmail']);
 Route::post('/login', [AuthController::class, 'login']);
 
 

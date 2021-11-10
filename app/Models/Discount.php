@@ -20,6 +20,7 @@ class Discount extends Model
         'expiry_date',
     ];
     protected $casts = [
+        'id' => 'integer',
         'discount' => 'integer',
     ];
 }

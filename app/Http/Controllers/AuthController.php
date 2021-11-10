@@ -33,6 +33,19 @@ class AuthController extends Controller
                 'message'=>'phone already taken.'
             ],200);
         }
+        //check email
+        public function checkEmail(Request $request){
+            $attrs = $request->validate([
+                'email' => 'required',
+            ]);
+            $user = User::where('email',$request['email'])->first();
+            if(!$user){
+                return response(['message' => 'email enable to resgister'], 403);
+            }
+            return response([
+                'message'=>'email already taken.'
+            ],200);
+        }
         //Register user
 
         public function register(Request $request)
