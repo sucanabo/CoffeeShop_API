@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
 use App\Models\Address;
-
-
+use DNS1D;
+use Picqer;
 
 class AuthController extends Controller
 
@@ -71,7 +71,8 @@ class AuthController extends Controller
     
 
             //create user
-
+            $barcode = DNS1D::getBarcodeHTML($request['phone'], 'PHARMA2T');
+            
             $user = User::create([
 
                 'display_name' => $attrs['display_name'],
@@ -85,6 +86,8 @@ class AuthController extends Controller
                 'password' => $attrs['password'] != null? bcrypt($attrs['password']):null
 
             ]);
+            $user->bar_code = $barcode;
+            $user->save();
 
     
 
