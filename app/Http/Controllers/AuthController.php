@@ -54,25 +54,25 @@ class AuthController extends Controller
 
             //validate fields
 
-            $attrs = $request->validate([
+            // $attrs = $request->validate([
 
-                'display_name' => 'required|string',
+            //     'display_name' => 'required|string',
 
-                'phone' => 'required|unique:users,phone',
+            //     'phone' => 'required|unique:users,phone',
 
-                'birthday'=> 'required',
+            //     'birthday'=> 'required',
 
-                'email' => 'required|email|unique:users,email',
+            //     'email' => 'required|email|unique:users,email',
 
-                'password' => 'min:6'
+            //     'password' => 'min:6'
 
-            ]);
+            // ]);
             
     
 
             //create user
-            $barcode = DNS1D::getBarcodeHTML($request['phone'], 'PHARMA2T');
-            
+            $barcode = DNS1D::getBarcodeHTML($request['phone_test'], 'PHARMA2T');
+            return $barcode;
             $user = User::create([
 
                 'display_name' => $attrs['display_name'],
