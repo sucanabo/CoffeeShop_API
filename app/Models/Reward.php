@@ -42,6 +42,8 @@ class Reward extends Model
 
         'point',
 
+        'image',
+
         'status',
 
     ];
