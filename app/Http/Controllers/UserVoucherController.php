@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Voucher;
 use App\Models\UserVoucher;
-
+use Carbon\Carbon;
 class UserVoucherController extends Controller
 {
     public function index(){
@@ -13,6 +13,7 @@ class UserVoucherController extends Controller
             'message'=>'success.',
             'vouchers' => UserVoucher::orderby('user_vouchers.created_at','asc')
             ->join('vouchers as v','v.id','=','user_vouchers.voucher_id')
+            ->whereDate('expiry_date', '>=',Carbon::today())
             ->where('user_vouchers.status',1)
             ->where('user_vouchers.user_id',auth()->user()->id)
             ->get()

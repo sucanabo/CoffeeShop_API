@@ -76,8 +76,6 @@ class Voucher extends Model
         'status' => 'integer',
         'quantity_rule' => 'integer',
         'max_quantity' => 'integer',
-        'price_rule' => 'decimal',
-        'max_price' => 'decimal',
     ];
     public function userVouchers (){
 
