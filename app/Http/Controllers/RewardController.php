@@ -20,7 +20,7 @@ class RewardController extends Controller
             'rewards' => Reward::orderby('rewards.created_at','asc')
             ->join('vouchers as v','v.id','=','voucher_id')
             ->where('rewards.status',1)
-            ->select('rewards.id','rewards.voucher_id','brand_name','rewards.title','rewards.content','point','image')
+            ->select('rewards.id','rewards.voucher_id','brand_name','rewards.title','rewards.content','point','rewards.image')
             ->get()
         ],200);
     }
