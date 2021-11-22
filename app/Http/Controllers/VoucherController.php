@@ -16,6 +16,7 @@ class VoucherController extends Controller
                 ->select('id','user_id','voucher_id')
                 ->get();
             })
+            ->whereDate('expiry_date', '>=',Carbon::today())
             ->where('status',1)
             ->where('type','public')
             ->get()
