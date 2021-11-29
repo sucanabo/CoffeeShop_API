@@ -15,7 +15,9 @@ class TransactionController extends Controller
         });
         
         if($status = $request['status']){
-            $query->where('status',$status);
+            if($status != null){
+                $query->where('status',$status);
+            }
         }
         
         $query->where('user_id', auth()->user()->id);
