@@ -19,6 +19,20 @@ use Picqer;
 class AuthController extends Controller
 
 {
+        
+        
+        //change password
+        public function changePassword(Request $request,$id){
+            $attrs = $request->validate(['password'=>'required']);
+            $user = User::find($id);
+
+            if(!$user){
+                return response(['message' => 'user not found.'],403);
+            }
+            $user->password = bcrypt($attrs['password']);
+            $user->save();
+            return response(['message' => 'resset password success.',$user],200);
+        }
 
         //check phone
         public function checkPhone(Request $request){
@@ -51,25 +65,6 @@ class AuthController extends Controller
         public function register(Request $request)
 
         {
-
-            //validate fields
-
-            // $attrs = $request->validate([
-
-            //     'display_name' => 'required|string',
-
-            //     'phone' => 'required|unique:users,phone',
-
-            //     'birthday'=> 'required',
-
-            //     'email' => 'required|email|unique:users,email',
-
-            //     'password' => 'min:6'
-
-            // ]);
-            
-    
-
             //create user
             $barcode = DNS1D::getBarcodeHTML($request['phone_test'], 'PHARMA2T');
             return $barcode;
