@@ -196,9 +196,14 @@ class AuthController extends Controller
             if(!$user){
                 return response(['message' => 'user not found.'],403);
             }
-            $user->password = bcrypt($attrs['password']);
-            $user->save();
-            return response(['message' => 'resset password success.',$user],200);
+            $newPass = bcrypt($attrs['password']);
+            if($newPass == $user->password){
+                $user->password = $newPass;
+                $user->save();
+                return response(['message' => 'resset password success.',$user],200);
+            }
+            return response(['message'=>'Wrong password.'],400);
+           
         }
 
 
