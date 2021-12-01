@@ -21,18 +21,7 @@ class AuthController extends Controller
 {
         
         
-        //change password
-        public function changePassword(Request $request,$id){
-            $attrs = $request->validate(['password'=>'required']);
-            $user = User::find($id);
-
-            if(!$user){
-                return response(['message' => 'user not found.'],403);
-            }
-            $user->password = bcrypt($attrs['password']);
-            $user->save();
-            return response(['message' => 'resset password success.',$user],200);
-        }
+        
 
         //check phone
         public function checkPhone(Request $request){
@@ -62,41 +51,41 @@ class AuthController extends Controller
         }
         //Register user
 
-        public function register(Request $request)
+        // public function register(Request $request)
 
-        {
-            //create user
-            $barcode = DNS1D::getBarcodeHTML($request['phone_test'], 'PHARMA2T');
-            return $barcode;
-            $user = User::create([
+        // {
+        //     //create user
+        //     $barcode = DNS1D::getBarcodeHTML($request['phone_test'], 'PHARMA2T');
+        //     return $barcode;
+        //     $user = User::create([
 
-                'display_name' => $attrs['display_name'],
+        //         'display_name' => $attrs['display_name'],
 
-                'phone'=> $attrs['phone'],
+        //         'phone'=> $attrs['phone'],
 
-                'email'=> $attrs['email'],
+        //         'email'=> $attrs['email'],
                 
-                'birthday' => $attrs['birthday'],
+        //         'birthday' => $attrs['birthday'],
 
-                'password' => $attrs['password'] != null? bcrypt($attrs['password']):null
+        //         'password' => $attrs['password'] != null? bcrypt($attrs['password']):null
 
-            ]);
-            $user->bar_code = $barcode;
-            $user->save();
+        //     ]);
+        //     $user->bar_code = $barcode;
+        //     $user->save();
 
     
 
-            //return user & token in response
+        //     //return user & token in response
 
-            return response([
+        //     return response([
 
-                'user' => User::find($user->id),
+        //         'user' => User::find($user->id),
 
-                'token' => $user->createToken('secret')->plainTextToken
+        //         'token' => $user->createToken('secret')->plainTextToken
 
-            ], 200);
+        //     ], 200);
 
-        }
+        // }
 
     
 
@@ -197,6 +186,19 @@ class AuthController extends Controller
             auth()->user()->update($request->all());   
             return response(['message'=>'update user success.','user'=>$request->all()],200);
            
+        }
+        //change password
+        public function changePassword(Request $request){
+       
+            $attrs = $request->validate(['password'=>'required']);
+            $user = auth()->user();
+
+            if(!$user){
+                return response(['message' => 'user not found.'],403);
+            }
+            $user->password = bcrypt($attrs['password']);
+            $user->save();
+            return response(['message' => 'resset password success.',$user],200);
         }
 
 
