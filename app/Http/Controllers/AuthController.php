@@ -190,14 +190,18 @@ class AuthController extends Controller
         //change password
         public function changePassword(Request $request){
        
-            $attrs = $request->validate(['password'=>'required']);
+            $attrs = $request->validate([
+                'new_password'=>'required',
+                'old_password'=>'required'
+            ]);
             $user = auth()->user();
 
             if(!$user){
                 return response(['message' => 'user not found.'],403);
             }
-            $newPass = bcrypt($attrs['password']);
-            if($newPass == $user->password){
+            $oldPassword = $attrs['old_password'];
+            $newPass = bcrypt($attrs['new_password']);
+            if($oldPassword == $user->password){
                 $user->password = $newPass;
                 $user->save();
                 return response(['message' => 'resset password success.',$user],200);
