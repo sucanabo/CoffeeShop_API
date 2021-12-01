@@ -10,11 +10,14 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 
+
 use App\Models\User;
 
 use App\Models\Address;
 use DNS1D;
 use Picqer;
+use Illuminate\Support\Facades\Hash;
+
 
 class AuthController extends Controller
 
@@ -199,9 +202,8 @@ class AuthController extends Controller
             if(!$user){
                 return response(['message' => 'user not found.'],403);
             }
-            $oldPassword = $attrs['old_password'];
-            $newPass = bcrypt($attrs['new_password']);
-            if($oldPassword == $user->password){
+            if(Hash::check($request['old_password'], $user->password)){
+                $newPass = bcrypt($attrs['new_password']);
                 $user->password = $newPass;
                 $user->save();
                 return response(['message' => 'resset password success.',$user],200);
