@@ -28,8 +28,8 @@ use App\Http\Controllers\AddressController;
 
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TransactionController;
-
-
+use App\Http\Controllers\PasswordResetController;
+use App\Models\PasswordReset;
 
 /*
 
@@ -60,11 +60,20 @@ Route::post('/check_phone', [AuthController::class, 'checkPhone']);
 Route::post('/check_email', [AuthController::class, 'checkEmail']);
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::group([
+    'namespace' => 'Auth',
+    'middleware' => 'api',
+    'prefix' => 'password'
+], function () {
+    Route::post('create', [PasswordResetController::class, 'create']);
+    Route::get('find/{token}', [PasswordResetController::class, 'find']);
+    Route::post('reset', [PasswordResetController::class, 'reset']);
+});
 
 
 //Protected routes
 
-Route::group(['middleware' => ['auth:sanctum']], function() {
+Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // User
 
@@ -73,7 +82,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::post('/user/edit', [AuthController::class, 'edit']);
 
     Route::post('/logout', [AuthController::class, 'logout']);
-    
+
     Route::post('/user/changepassword', [AuthController::class, 'changePassword']);
 
 
@@ -81,13 +90,13 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     // Product
 
-    Route::get('/products',[ProductController::class,'index']); //all product
+    Route::get('/products', [ProductController::class, 'index']); //all product
 
-    Route::get('/products/{id}',[ProductController::class,'show']); //get single product
+    Route::get('/products/{id}', [ProductController::class, 'show']); //get single product
 
-    Route::post('/products/condition',[ProductController::class,'condition']); //get other product by condition
+    Route::post('/products/condition', [ProductController::class, 'condition']); //get other product by condition
 
-    Route::post('/products',[ProductController::class,'create']); //create product
+    Route::post('/products', [ProductController::class, 'create']); //create product
 
     Route::put('/products/{id}', [ProductController::class, 'edit']); // update product
 
@@ -97,39 +106,39 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     // Category
 
-    Route::get('/categories',[CategoryController::class,'index']); //all category
+    Route::get('/categories', [CategoryController::class, 'index']); //all category
 
-    Route::get('/categories/{id}',[CategoryController::class,'show']); //show category 
+    Route::get('/categories/{id}', [CategoryController::class, 'show']); //show category 
 
-    Route::post('/categories',[CategoryController::class,'create']); //create category 
+    Route::post('/categories', [CategoryController::class, 'create']); //create category 
 
 
     //Rating
 
-    Route::get('/products/{id}/ratings',[RatingController::class,'index']); //get all rating
+    Route::get('/products/{id}/ratings', [RatingController::class, 'index']); //get all rating
 
-    Route::post('/products/{id}/ratings',[RatingController::class,'ratedOrNot']); //get all rating/ update rating
+    Route::post('/products/{id}/ratings', [RatingController::class, 'ratedOrNot']); //get all rating/ update rating
 
-    
+
 
     //Favourite
 
     Route::post('/products/{id}/favourites', [FavouriteController::class, 'checkFavourite']); //check user is favourited product
 
-    
+
 
     //Voucher
-    Route::get('/vouchers',[VoucherController::class,'index']);
-    
-    Route::get('/uservouchers',[UserVoucherController::class,'index']);
+    Route::get('/vouchers', [VoucherController::class, 'index']);
 
-    Route::post('/uservouchers/{id}/save',[UserVoucherController::class,'saveVoucher']);
+    Route::get('/uservouchers', [UserVoucherController::class, 'index']);
 
-    Route::delete('/uservouchers/{id}/use', [UserVoucherController::class,'useVoucher']);
+    Route::post('/uservouchers/{id}/save', [UserVoucherController::class, 'saveVoucher']);
+
+    Route::delete('/uservouchers/{id}/use', [UserVoucherController::class, 'useVoucher']);
 
     //Reward
 
-    Route::get('/rewards',[RewardController::class,'index']);
+    Route::get('/rewards', [RewardController::class, 'index']);
 
     //Address
 
