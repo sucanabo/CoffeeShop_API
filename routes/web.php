@@ -12,8 +12,7 @@ use App\Http\Controllers\MailController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/send-mail',[MailController::class, 'sendMail']);
+
 Route::get('/', function () {
     return view('welcome');
 });
-

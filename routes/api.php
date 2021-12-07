@@ -69,8 +69,6 @@ Route::group([
     Route::get('find/{token}', [PasswordResetController::class, 'find']);
     Route::post('reset', [PasswordResetController::class, 'reset']);
 });
-
-
 //Protected routes
 
 Route::group(['middleware' => ['auth:sanctum']], function () {

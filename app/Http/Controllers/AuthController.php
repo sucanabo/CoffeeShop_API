@@ -12,98 +12,107 @@ use Illuminate\Support\Facades\Auth;
 
 
 use App\Models\User;
-
-use App\Models\Address;
-use DNS1D;
-use Picqer;
+use \DNS2D;
 use Illuminate\Support\Facades\Hash;
-
 
 class AuthController extends Controller
 
 {
-        
-        
-        
 
-        //check phone
-        public function checkPhone(Request $request){
-            $attrs = $request->validate([
-                'phone' => 'required',
-            ]);
-            $user = User::where('phone',$request['phone'])->first();
-            if(!$user){
-                return response(['message' => 'phone enable to resgister'], 403);
-            }
-            return response([
-                'message'=>'phone already taken.'
-            ],200);
+
+
+
+    //check phone
+    public function checkPhone(Request $request)
+    {
+        $attrs = $request->validate([
+            'phone' => 'required',
+        ]);
+        $user = User::where('phone', $request['phone'])->first();
+        if (!$user) {
+            return response(['message' => 'phone enable to resgister'], 403);
         }
-        //check email
-        public function checkEmail(Request $request){
-            $attrs = $request->validate([
-                'email' => 'required',
-            ]);
-            $user = User::where('email',$request['email'])->first();
-            if(!$user){
-                return response(['message' => 'email enable to resgister'], 403);
-            }
-            return response([
-                'message'=>'email already taken.'
-            ],200);
+        return response([
+            'message' => 'phone already taken.'
+        ], 200);
+    }
+    //check email
+    public function checkEmail(Request $request)
+    {
+        $attrs = $request->validate([
+            'email' => 'required',
+        ]);
+        $user = User::where('email', $request['email'])->first();
+        if (!$user) {
+            return response(['message' => 'email enable to resgister'], 403);
         }
-        //Register user
+        return response([
+            'message' => 'email already taken.'
+        ], 200);
+    }
+    //Register user
 
-        // public function register(Request $request)
+    public function register(Request $request)
+    {
+        $attrs = $request->validate([
 
-        // {
-        //     //create user
-        //     $barcode = DNS1D::getBarcodeHTML($request['phone_test'], 'PHARMA2T');
-        //     return $barcode;
-        //     $user = User::create([
+            'display_name' => 'required|string',
 
-        //         'display_name' => $attrs['display_name'],
+            'phone' => 'required|unique:users,phone',
 
-        //         'phone'=> $attrs['phone'],
+            'birthday' => 'required',
 
-        //         'email'=> $attrs['email'],
-                
-        //         'birthday' => $attrs['birthday'],
+            'email' => 'required|email|unique:users,email',
 
-        //         'password' => $attrs['password'] != null? bcrypt($attrs['password']):null
+            'password' => 'min:6'
 
-        //     ]);
-        //     $user->bar_code = $barcode;
-        //     $user->save();
+        ]);
+        //create user
+        $barcode = DNS2D::getBarcodeSVG($request->phone, 'QRCODE');
+        $user = User::create([
 
-    
+            'display_name' => $attrs['display_name'],
 
-        //     //return user & token in response
+            'phone' => $attrs['phone'],
 
-        //     return response([
+            'email' => $attrs['email'],
 
-        //         'user' => User::find($user->id),
+            'birthday' => $attrs['birthday'],
 
-        //         'token' => $user->createToken('secret')->plainTextToken
+            'password' => $attrs['password'] != null ? bcrypt($attrs['password']) : null,
+            'bar_code' => $barcode,
 
-        //     ], 200);
+        ]);
+        $user->bar_code = $barcode;
+        $user->save();
 
-        // }
 
-    
 
-        // login user
+        //return user & token in response
 
-        public function login(Request $request)
+        return response([
 
-        {
-            
-            $attrs = $request->validate([
-                'method' => 'required'
-            ]);
+            'user' => User::find($user->id),
 
-            if($request['method'] == 'phone'){
-                //validate fields
+            'token' => $user->createToken('secret')->plainTextToken
+
+        ], 200);
+    }
+
+
+
+    // login user
+
+    public function login(Request $request)
+
+    {
+
+        $attrs = $request->validate([
+            'method' => 'required'
+        ]);
+
+        if ($request['method'] == 'phone') {
+            //validate fields
 
             $attrs = $request->validate([
 
@@ -115,17 +124,16 @@ class AuthController extends Controller
 
             // attempt login
 
-            if(!Auth::attempt($attrs)){
+            if (!Auth::attempt($attrs)) {
 
                 return response([
 
                     'message' => 'Invalid credentials.'
 
                 ], 403);
-
             }
 
-    
+
 
             //return user & token in response
 
@@ -136,88 +144,73 @@ class AuthController extends Controller
                 'token' => auth()->user()->createToken('secret')->plainTextToken
 
             ], 200);
+        } else if ($request['method'] == 'email') {
+            //check email
+            $user = User::where('email', $request['email'])->first();
+            if (!$user) {
+                return response([
+                    'message' => 'Invalid credentials.'
+                ], 401);
             }
-            else if($request['method'] == 'email'){
-                //check email
-                $user = User::where('email',$request['email'])->first();
-                if(!$user){
-                    return response([
-                        'message' => 'Invalid credentials.'
-                    ],401);
-                }
-                $token = $user->createToken('secret')->plainTextToken;
-                return response(['user'=> $user, 'token' => $token],200);
-            }
-
-            
-
+            $token = $user->createToken('secret')->plainTextToken;
+            return response(['user' => $user, 'token' => $token], 200);
         }
+    }
 
-    
 
-        // logout user
 
-        public function logout()
+    // logout user
 
-        {
+    public function logout()
 
-            auth()->user()->tokens()->delete();
+    {
 
-            return response([
+        auth()->user()->tokens()->delete();
 
-                'message' => 'Logout success.'
+        return response([
 
-            ], 200);
+            'message' => 'Logout success.'
 
+        ], 200);
+    }
+
+
+
+    // get user details
+
+    public function user()
+    {
+        return response([
+
+            'user' => auth()->user()
+
+        ], 200);
+    }
+
+    public function edit(Request $request)
+    {
+        auth()->user()->update($request->all());
+        return response(['message' => 'update user success.', 'user' => $request->all()], 200);
+    }
+    //change password
+    public function changePassword(Request $request)
+    {
+
+        $attrs = $request->validate([
+            'new_password' => 'required',
+            'old_password' => 'required'
+        ]);
+        $user = auth()->user();
+
+        if (!$user) {
+            return response(['message' => 'user not found.'], 403);
         }
-
-    
-
-        // get user details
-
-        public function user()
-        {
-            return response([
-
-                'user' => auth()->user()
-
-            ], 200);
-
+        if (Hash::check($request['old_password'], $user->password)) {
+            $newPass = bcrypt($attrs['new_password']);
+            $user->password = $newPass;
+            $user->save();
+            return response(['message' => 'resset password success.', $user], 200);
         }
-
-        public function edit(Request $request){
-            auth()->user()->update($request->all());   
-            return response(['message'=>'update user success.','user'=>$request->all()],200);
-           
-        }
-        //change password
-        public function changePassword(Request $request){
-       
-            $attrs = $request->validate([
-                'new_password'=>'required',
-                'old_password'=>'required'
-            ]);
-            $user = auth()->user();
-
-            if(!$user){
-                return response(['message' => 'user not found.'],403);
-            }
-            if(Hash::check($request['old_password'], $user->password)){
-                $newPass = bcrypt($attrs['new_password']);
-                $user->password = $newPass;
-                $user->save();
-                return response(['message' => 'resset password success.',$user],200);
-            }
-            return response(['message'=>'Wrong password.'],400);
-           
-        }
-
-
-    
-
-        
-
-       
-
+        return response(['message' => 'Wrong password.'], 400);
+    }
 }
-
