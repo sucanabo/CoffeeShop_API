@@ -59,6 +59,8 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/check_phone', [AuthController::class, 'checkPhone']);
 Route::post('/check_email', [AuthController::class, 'checkEmail']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/reset_password', [AuthController::class, 'resetPassword']);
+
 
 Route::group([
     'namespace' => 'Auth',

@@ -192,13 +192,27 @@ class AuthController extends Controller
         auth()->user()->update($request->all());
         return response(['message' => 'update user success.', 'user' => $request->all()], 200);
     }
+    public function resetPassword(Request $request)
+    {
+        $attrs = $request->validate([
+            'phone' => 'required',
+            'password' => 'required'
+        ]);
+        $user = User::where('phone', $attrs['phone'])->get()->first();
+        if (!$user) {
+            return response(['message' => 'User not found.'], 403);
+        }
+        $user->password = bcrypt($attrs['password']);
+        $user->save();
+        return response(['message' => $user]);
+    }
     //change password
     public function changePassword(Request $request)
     {
 
         $attrs = $request->validate([
             'new_password' => 'required',
-            'old_password' => 'required'
+            'old_password' => 'required',
         ]);
         $user = auth()->user();
 
