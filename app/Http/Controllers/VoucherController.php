@@ -11,11 +11,6 @@ class VoucherController extends Controller
         return response([
             'message'=>'success.',
             'vouchers' => Voucher::orderby('created_at','desc')
-            ->with('userVouchers',function($voucher){
-                return $voucher->where('user_id',auth()->user()->id)
-                ->select('id','user_id','voucher_id')
-                ->get();
-            })
             ->whereDate('expiry_date', '>=',Carbon::today())
             ->where('status',1)
             ->where('type','public')
