@@ -23,13 +23,15 @@ class PasswordResetController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            'email' => 'required|string|email',
+            'phone' => 'required|string',
         ]);
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('phone', $request->phone)->first();
+        
         if (!$user)
             return response()->json([
-                'message' => 'We can\'t find a user with that e-mail address.'
+                'message' => 'We can\'t find a user'
             ], 404);
+      
         $passwordReset = PasswordReset::updateOrCreate(
             ['email' => $user->email],
             [
