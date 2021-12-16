@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Transaction;
+use App\Models\UserVoucher;
+use App\Models\Order;
 
 class TransactionController extends Controller
 {
@@ -37,5 +39,26 @@ class TransactionController extends Controller
             'totalRow'=> $totalRow,
             'data'=>$result]
         );
+    }
+    function cancel(Request $request)
+    {
+        $attrs = $request->validate([
+            'transaction_id' => 'required',
+        ]);
+        $transaction = Transaction::find($request->transaction_id);
+        if (!$transaction) {
+            return response(['message' => 'Transaction not found.'], 403);
+        }
+        $transaction->status = 'cancelled';
+        $transaction->save();
+
+        //get order
+        $order = Order::find($transaction->order_id);
+        $promo = json_decode('[' . $order->promo . ']', true);
+        //update voucher status
+        $vouchers = UserVoucher::where('user_id', auth()->user()->id)
+            ->whereIn('voucher_id', $promo)
+            ->update(['status' => 1]);
+        return response(['messages' => 'Cancelled transaction succes.', 'transaction' => $transaction, 'voucher_cancelled' => $vouchers], 200);
     }
 }

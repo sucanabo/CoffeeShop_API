@@ -155,4 +155,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/orders/{id}/items', [OrderController::class, 'items']);
     //transaction
     Route::post('/transactions', [TransactionController::class, 'getPage']);
+    Route::post('/transactions/cancel', [TransactionController::class, 'cancel']);
 });
