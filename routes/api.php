@@ -139,6 +139,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     //Reward
 
     Route::get('/rewards', [RewardController::class, 'index']);
+    Route::post('/rewards/{id}/redeem', [RewardController::class, 'redeem']);
 
     //Address
 
